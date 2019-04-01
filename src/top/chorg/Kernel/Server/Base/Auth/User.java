@@ -1,4 +1,4 @@
-package top.chorg.Kernel.Communication.Auth;
+package top.chorg.Kernel.Server.Base.Auth;
 
 import java.io.Serializable;
 

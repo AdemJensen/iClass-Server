@@ -1,7 +1,7 @@
 package top.chorg.CmdLine;
 
 import top.chorg.Kernel.Cmd.CmdResponder;
-import top.chorg.Kernel.Communication.Message;
+import top.chorg.Kernel.Server.Base.Message;
 import top.chorg.System.Global;
 import top.chorg.System.Sys;
 
@@ -28,8 +28,7 @@ public class CmdLineAdapter {
             String[] content = new String[args.length - 1];
             System.arraycopy(args, 1, content, 0, args.length - 1);
             msg.content = content;
-            CmdResponder responderObj =
-                    Global.cmdManPublic.execute(msg);
+            CmdResponder responderObj = Global.cmdManPublic.execute(msg);
 
             if (responderObj == null) {
                 Sys.err("Cmd Line", "Responder error: Unable to create responder instance.");

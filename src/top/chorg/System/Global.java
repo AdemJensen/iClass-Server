@@ -38,7 +38,7 @@ public class Global {
         if (variables.containsKey(key)) {
             String ori = variables.get(key).toString();
             variables.replace(key, value);
-            Sys.DevInfoF("Global","Global '%s' replaced ('%s' -> '%s').", key, ori, value.toString());
+            Sys.devInfoF("Global","Global '%s' replaced ('%s' -> '%s').", key, ori, value.toString());
         } else {
             variables.put(key, value);
         }
@@ -87,7 +87,7 @@ public class Global {
         if (!configs.containsKey(key)) {
             if (Sys.isDevEnv()) {
                 configs.put(key, value);
-                Sys.DevInfoF("Config", "Config '%s' have been added to the set.", key);
+                Sys.devInfoF("Config", "Config '%s' have been added to the set.", key);
             } else {
                 Sys.errF("Config", "Invalid config key '%s'.", key);
                 exit(2);
@@ -196,7 +196,7 @@ public class Global {
             out.writeObject(Global.getConfObj());
             out.close();
             fileOut.close();
-            DevInfoF("SerializableMap Saver", "Serialized data is saved in '%s'.", confFileName);
+            devInfoF("SerializableMap Saver", "Serialized data is saved in '%s'.", confFileName);
         } catch(IOException i) {
             errF("SerializableMap Saver", "Unable to open conf file for saving (%s)!", confFileName);
             return false;
