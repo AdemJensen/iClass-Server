@@ -92,6 +92,8 @@ public class Initializer {
      */
     private static void registerPrivateCommands() {
 
+        Global.cmdManPrivate.register("login", top.chorg.Kernel.Cmd.PrivateResponders.LoginRequestResponder.class);
+
     }
 
     /**

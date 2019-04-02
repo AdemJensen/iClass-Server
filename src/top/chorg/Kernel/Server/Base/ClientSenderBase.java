@@ -2,16 +2,17 @@ package top.chorg.Kernel.Server.Base;
 
 import java.io.PrintWriter;
 import java.io.Serializable;
+import java.net.Socket;
 
-public class ClientSenderBase {
-    PrintWriter pw;
+public abstract class ClientSenderBase {
+    protected Client clientObj;
+    protected PrintWriter pw;
 
-    public ClientSenderBase(PrintWriter pw) {
+    public ClientSenderBase(Client clientObj, PrintWriter pw) {
+        this.clientObj = clientObj;
         this.pw = pw;
     }
 
-    public boolean send(Serializable msg) {
-        return false;
-    }
+    public abstract boolean send(Serializable msg);
 
 }
