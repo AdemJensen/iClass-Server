@@ -13,6 +13,7 @@ public class ServerBase extends Thread {
     private HashMap<Integer, Client> records = new HashMap<>();
     ConnectionAuthenticatorLambda validationMethod;
     private ConnectionRequestReceiver connectionRequestReceiver;
+    private ServerSocket serverSocket;
     private int port;
     Class<?> clientReceiver, clientSender;
 
@@ -30,6 +31,15 @@ public class ServerBase extends Thread {
         return records.get(to).sender.send(message);
     }
 
+    @Override
+    public void interrupt() {
+        try {
+            serverSocket.close();
+        } catch (IOException e) {
+            Sys.warn("Server", "Something happened while closing server socket (IOException).");
+        }
+        super.interrupt();
+    }
 
     public int getActiveClientNum() {
         return records.size();
@@ -42,7 +52,6 @@ public class ServerBase extends Thread {
     private class ConnectionRequestReceiver extends Thread {
         @Override
         public void run() {
-            ServerSocket serverSocket;// 创建服务器Socket对象
             try {
                 serverSocket = new ServerSocket(port);// 监听客户端的连接
                 Socket clientSocket = serverSocket.accept(); // 阻塞

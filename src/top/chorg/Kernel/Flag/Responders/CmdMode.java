@@ -4,7 +4,7 @@ import top.chorg.Kernel.Flag.FlagResponder;
 import top.chorg.System.Global;
 import top.chorg.System.Sys;
 
-public class CmdModeResponder extends FlagResponder {
+public class CmdMode extends FlagResponder {
 
     @Override
     public int response() {

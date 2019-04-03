@@ -14,7 +14,7 @@ import java.util.Objects;
  * The helper will display all the flags without manual in a group.
  * CAUTION: DO NOT return a void string! If you have nothing to say, please return null in the getManual().
  */
-public class HelpResponder extends FlagResponder {
+public class Help extends FlagResponder {
     @Override
     public int response() {
         Global.setVar("HELP_MODE", true);

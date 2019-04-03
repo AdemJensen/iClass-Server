@@ -1,9 +1,11 @@
 package top.chorg.System;
 
+import top.chorg.Kernel.Server.Base.ServerBase;
 import top.chorg.Kernel.Cmd.CmdManager;
 import top.chorg.Support.SerializableMap;
 
 import java.io.*;
+import java.sql.Connection;
 import java.util.HashMap;
 
 import static top.chorg.System.Sys.*;
@@ -24,6 +26,11 @@ import static top.chorg.System.Sys.*;
 public class Global {
     public static CmdManager cmdManPublic = new CmdManager();
     public static CmdManager cmdManPrivate = new CmdManager();
+
+    public static ServerBase cmdServer;
+    public static ServerBase fileServer;
+
+    public static Connection database;
 
     private static HashMap<String, Object> variables = new HashMap<>();     // Contains global variables.
     private static SerializableMap configs;     // Contains configuration variables.

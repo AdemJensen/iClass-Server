@@ -1,5 +1,6 @@
 package top.chorg.Kernel.Server.CmdServer;
 
+import top.chorg.Kernel.Database.UserQueryState;
 import top.chorg.Kernel.Server.Base.ServerBase;
 import top.chorg.Support.SerializableMap;
 import top.chorg.Support.SerializeUtils;
@@ -15,14 +16,19 @@ public class CmdServer extends ServerBase {
                 port,
                 top.chorg.Kernel.Server.CmdServer.Receiver.class,
                 top.chorg.Kernel.Server.CmdServer.Sender.class,
-                (BufferedReader reader, PrintWriter writer) -> {
+                (BufferedReader reader, PrintWriter writer) -> {        //Validation method
                     try {
                         SerializableMap authMsg = (SerializableMap) SerializeUtils.deserialize(reader.readLine());
                         if (!authMsg.containsKey("method") ||
                                 !authMsg.containsKey("u") || !authMsg.containsKey("p")) {
                             throw new IllegalArgumentException();
                         }
-                        // TODO: Database actions
+                        if (UserQueryState.validateUser(
+                                (String) authMsg.get("u"),
+                                (String) authMsg.get("p")
+                        )) {
+
+                        }
 
                     } catch (IOException e) {
                         Sys.devInfo("Cmd Server", "A broken connection occurred while authenticating.");

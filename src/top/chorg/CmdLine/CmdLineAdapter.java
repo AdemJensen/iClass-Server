@@ -2,6 +2,7 @@ package top.chorg.CmdLine;
 
 import top.chorg.Kernel.Cmd.CmdResponder;
 import top.chorg.Kernel.Server.Base.Message;
+import top.chorg.Kernel.Server.CmdServer.CmdServer;
 import top.chorg.System.Global;
 import top.chorg.System.Sys;
 
@@ -37,10 +38,10 @@ public class CmdLineAdapter {
                 while (responderObj.isAlive());
             }
         }
-        Sys.info("Cmd Line", "Command line is closing now.");
+        Global.cmdManPublic.execute(new Message("stop", null));
     }
 
     public static void outputDecoration() {
-        System.out.printf("[%d Active Clients] >>> ", 0);
+        System.out.printf("[%d Active Clients] >>> ", Global.cmdServer.getActiveClientNum());
     }
 }

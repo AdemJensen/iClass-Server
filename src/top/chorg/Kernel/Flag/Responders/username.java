@@ -4,7 +4,7 @@ import top.chorg.Kernel.Flag.FlagResponder;
 import top.chorg.System.Global;
 import top.chorg.System.Sys;
 
-public class usernameResponder extends FlagResponder {
+public class username extends FlagResponder {
     @Override
     public int response() {
         if (Global.varExists("pre_username")) {

@@ -4,7 +4,7 @@ import top.chorg.Kernel.Flag.FlagResponder;
 import top.chorg.System.Global;
 import top.chorg.System.Sys;
 
-public class GuiModeResponder extends FlagResponder {
+public class GuiMode extends FlagResponder {
 
     @Override
     public int response() {

@@ -21,9 +21,9 @@ import java.util.Objects;
  *  - If display one of them: The helper will not display the similar commands.
  * CAUTION: DO NOT return a void string! If you have nothing to say, please return null in the getManual().
  */
-public class HelpResponder extends CmdResponder {
+public class Help extends CmdResponder {
 
-    public HelpResponder(Serializable args) {
+    public Help(Serializable args) {
         super(args);
     }
 
@@ -107,11 +107,6 @@ public class HelpResponder extends CmdResponder {
                 }
             }
         }
-        return 0;
-    }
-
-    @Override
-    public int onReceiveNetMsg() {
         return 0;
     }
 

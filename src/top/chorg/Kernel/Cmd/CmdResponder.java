@@ -49,14 +49,14 @@ public abstract class CmdResponder extends Thread {
      *
      * @return return value of this responder action.
      */
-    public abstract int onReceiveNetMsg();
+    public int onReceiveNetMsg() { return -1; };
 
     /**
      * To provide this command's usage manual.
      *
      * @return The usage manual of this command. Try to avoid using '\n' char to avoid new lines.
      */
-    public abstract String getManual();
+    public String getManual() { return null; };
 
     /**
      * Assign execution mode to decide which execution method to use.

@@ -5,7 +5,7 @@ import top.chorg.Kernel.Flag.FlagResponder;
 import top.chorg.System.Global;
 import top.chorg.System.Sys;
 
-public class DevModeResponder extends FlagResponder {
+public class DevMode extends FlagResponder {
 
     @Override
     public int response() {

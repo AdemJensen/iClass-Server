@@ -33,7 +33,7 @@ public abstract class FlagResponder {
     /**
      * Defines the operations that you want to execute after the flag analyse.
      */
-    public abstract void aftActions();
+    public void aftActions() {}
 
     /**
      * Get an argument from the arg list. (The next string)
