@@ -1,4 +1,4 @@
-package top.chorg.kernel.server.base.dataClass;
+package top.chorg.kernel.server.base.api;
 
 import com.google.gson.JsonSyntaxException;
 import top.chorg.system.Global;

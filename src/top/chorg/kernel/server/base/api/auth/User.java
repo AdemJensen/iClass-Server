@@ -1,4 +1,4 @@
-package top.chorg.kernel.server.base.dataClass.auth;
+package top.chorg.kernel.server.base.api.auth;
 
 import top.chorg.kernel.database.UserQueryState;
 import top.chorg.support.Date;

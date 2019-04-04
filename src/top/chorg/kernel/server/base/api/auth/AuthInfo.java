@@ -1,4 +1,4 @@
-package top.chorg.kernel.server.base.dataClass.auth;
+package top.chorg.kernel.server.base.api.auth;
 
 public class AuthInfo {
     public String method;      // "Normal" or "Token"

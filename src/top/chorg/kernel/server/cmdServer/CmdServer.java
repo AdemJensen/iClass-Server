@@ -1,10 +1,10 @@
 package top.chorg.kernel.server.cmdServer;
 
 import top.chorg.kernel.database.UserQueryState;
-import top.chorg.kernel.server.base.dataClass.auth.AuthInfo;
-import top.chorg.kernel.server.base.dataClass.auth.AuthResult;
-import top.chorg.kernel.server.base.dataClass.auth.User;
-import top.chorg.kernel.server.base.dataClass.Message;
+import top.chorg.kernel.server.base.api.auth.AuthInfo;
+import top.chorg.kernel.server.base.api.auth.AuthResult;
+import top.chorg.kernel.server.base.api.auth.User;
+import top.chorg.kernel.server.base.api.Message;
 import top.chorg.kernel.server.base.ServerBase;
 import top.chorg.system.Global;
 import top.chorg.system.Sys;

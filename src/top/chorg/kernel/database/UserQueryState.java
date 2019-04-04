@@ -1,6 +1,6 @@
 package top.chorg.kernel.database;
 
-import top.chorg.kernel.server.base.dataClass.auth.User;
+import top.chorg.kernel.server.base.api.auth.User;
 import top.chorg.support.Date;
 import top.chorg.support.DateTime;
 import top.chorg.system.Global;
