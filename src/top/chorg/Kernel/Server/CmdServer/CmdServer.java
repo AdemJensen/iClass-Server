@@ -1,6 +1,8 @@
 package top.chorg.Kernel.Server.CmdServer;
 
 import top.chorg.Kernel.Database.UserQueryState;
+import top.chorg.Kernel.Server.Base.Auth.User;
+import top.chorg.Kernel.Communication.Message;
 import top.chorg.Kernel.Server.Base.ServerBase;
 import top.chorg.Support.SerializableMap;
 import top.chorg.Support.SerializeUtils;
@@ -18,26 +20,46 @@ public class CmdServer extends ServerBase {
                 top.chorg.Kernel.Server.CmdServer.Sender.class,
                 (BufferedReader reader, PrintWriter writer) -> {        //Validation method
                     try {
-                        SerializableMap authMsg = (SerializableMap) SerializeUtils.deserialize(reader.readLine());
+                        String str = reader.readLine();
+                        if (str == null) {
+                            throw new IOException();
+                        }
+                        Message raw = (Message) SerializeUtils.deserialize(str);
+                        if (!raw.msgType.equals("login")) {
+                            throw new IllegalArgumentException("1");
+                        }
+                        SerializableMap authMsg = (SerializableMap) raw.content;
                         if (!authMsg.containsKey("method") ||
                                 !authMsg.containsKey("u") || !authMsg.containsKey("p")) {
-                            throw new IllegalArgumentException();
+                            throw new IllegalArgumentException("2");
                         }
-                        if (UserQueryState.validateUser(
+                        User res = UserQueryState.validateUser(
                                 (String) authMsg.get("u"),
                                 (String) authMsg.get("p")
-                        )) {
-
+                        );
+                        if (res == null) {
+                            Sys.devInfo("Cmd Server", "A client has failed authentication.");
+                            return 0;
+                        } else {
+                            writer.write(SerializeUtils.serialize(new Message(
+                                    "login",
+                                    new SerializableMap(
+                                            "result", "Granted",
+                                            "obj", res
+                                    )
+                            )));
+                            writer.flush();
+                            Sys.devInfo("Cmd Server", "A client has completed authentication.");
+                            return res.getId();
                         }
 
                     } catch (IOException e) {
                         Sys.devInfo("Cmd Server", "A broken connection occurred while authenticating.");
-                        return 2;
+                        return -2;
                     } catch (ClassNotFoundException | ClassCastException | IllegalArgumentException e) {
-                        Sys.devInfo("Cmd Server", "A client has sent invalid auth info.");
-                        return 1;
+                        Sys.devInfoF("Cmd Server", "A client has sent invalid auth info (%s).", e);
+                        return -1;
                     }
-                    return 0;
                 }
         );
     }

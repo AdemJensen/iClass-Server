@@ -1,6 +1,6 @@
 package top.chorg.Kernel.Cmd;
 
-import top.chorg.Kernel.Server.Base.Message;
+import top.chorg.Kernel.Communication.Message;
 import top.chorg.System.Sys;
 
 import java.io.Serializable;

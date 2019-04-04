@@ -1,5 +1,8 @@
 package top.chorg.Support;
 
+import top.chorg.System.Sys;
+
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 public class DateTime {
@@ -11,8 +14,7 @@ public class DateTime {
     }
 
     public DateTime(String str) {
-        this.date = new Date(str.split(" ")[0]);
-        this.assign(str.split(" ")[1]);
+        this.assign(str);
     }
 
     public void reconstruct() {
@@ -38,6 +40,14 @@ public class DateTime {
     }
 
     public void assign(String string) {
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); //创建要显示的日期格式
+        java.util.Date date = null;      //将从数据库读出来的 timestamp 类型的时间转换为java的Date类型
+        try {
+            date = fmt.parse(string);
+        } catch (ParseException e) {
+            Sys.err("DATETIME", "INVALID PARSE.");
+        }
+        string = fmt.format(date);
         var middle = string.split(" ", 2);
         var result2 = middle[1].split(":");
         this.date = new Date(middle[0]);

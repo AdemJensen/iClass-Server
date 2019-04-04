@@ -20,8 +20,14 @@ public class Client {
         this.writer = pw;
         this.reader = br;
         try {
-            this.receiver = (ClientReceiverBase) receiver.getDeclaredConstructor(BufferedReader.class).newInstance(reader);
-            this.sender = (ClientSenderBase) sender.getDeclaredConstructor(PrintWriter.class).newInstance(writer);
+            this.receiver = (ClientReceiverBase) receiver.getDeclaredConstructor(
+                    Client.class,
+                    BufferedReader.class
+            ).newInstance(this, reader);
+            this.sender = (ClientSenderBase) sender.getDeclaredConstructor(
+                    Client.class,
+                    PrintWriter.class
+            ).newInstance(this, writer);
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             Sys.err("Client", "Invalid receiver or sender thread!");
             Sys.exit(19);

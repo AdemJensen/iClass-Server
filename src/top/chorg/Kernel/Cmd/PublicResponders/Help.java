@@ -2,7 +2,7 @@ package top.chorg.Kernel.Cmd.PublicResponders;
 
 import top.chorg.Kernel.Cmd.CmdManager;
 import top.chorg.Kernel.Cmd.CmdResponder;
-import top.chorg.Kernel.Server.Base.Message;
+import top.chorg.Kernel.Communication.Message;
 import top.chorg.System.Global;
 import top.chorg.System.Sys;
 

@@ -2,7 +2,7 @@ package top.chorg.Kernel.Server.CmdServer;
 
 import top.chorg.Kernel.Server.Base.Client;
 import top.chorg.Kernel.Server.Base.ClientReceiverBase;
-import top.chorg.Kernel.Server.Base.Message;
+import top.chorg.Kernel.Communication.Message;
 import top.chorg.Support.SerializeUtils;
 import top.chorg.System.Global;
 import top.chorg.System.Sys;

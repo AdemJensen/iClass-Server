@@ -1,5 +1,8 @@
 package top.chorg.Support;
 
+import top.chorg.System.Sys;
+
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 public class Date {
@@ -10,9 +13,7 @@ public class Date {
     }
 
     public Date(String str) {
-        this.year = 0;
-        this.month = 0;
-        this.day = 0;
+        this.assign(str);
     }
 
     public static boolean isLeapYear(int year) {
@@ -56,6 +57,14 @@ public class Date {
     }
 
     public void assign(String string) {
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd"); //创建要显示的日期格式
+        java.util.Date date = null;      //将从数据库读出来的 timestamp 类型的时间转换为java的Date类型
+        try {
+            date = fmt.parse(string);
+        } catch (ParseException e) {
+            Sys.errF("DATETIME", "INVALID PARSE (%s).", string);
+        }
+        string = fmt.format(date);
         var result1 = string.split("-");
         this.year = Integer.parseInt(result1[0]);
         this.month = Integer.parseInt(result1[1]);

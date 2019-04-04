@@ -1,8 +1,7 @@
 package top.chorg.CmdLine;
 
 import top.chorg.Kernel.Cmd.CmdResponder;
-import top.chorg.Kernel.Server.Base.Message;
-import top.chorg.Kernel.Server.CmdServer.CmdServer;
+import top.chorg.Kernel.Communication.Message;
 import top.chorg.System.Global;
 import top.chorg.System.Sys;
 

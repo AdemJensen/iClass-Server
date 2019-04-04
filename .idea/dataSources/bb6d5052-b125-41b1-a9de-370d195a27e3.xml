@@ -1164,7 +1164,7 @@
       <DataType>text|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="287" parent="277" name="nickname">
+    <column id="287" parent="277" name="nickName">
       <Position>10</Position>
       <Comment>Nickname of a user.</Comment>
       <DataType>text|0s</DataType>

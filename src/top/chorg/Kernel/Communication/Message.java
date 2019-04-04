@@ -1,4 +1,4 @@
-package top.chorg.Kernel.Server.Base;
+package top.chorg.Kernel.Communication;
 
 import top.chorg.Support.SerializableMap;
 

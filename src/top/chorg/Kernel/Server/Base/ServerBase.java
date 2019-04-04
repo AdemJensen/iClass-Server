@@ -11,11 +11,11 @@ import java.util.HashMap;
 
 public class ServerBase extends Thread {
     private HashMap<Integer, Client> records = new HashMap<>();
-    ConnectionAuthenticatorLambda validationMethod;
+    private ConnectionAuthenticatorLambda validationMethod;
     private ConnectionRequestReceiver connectionRequestReceiver;
     private ServerSocket serverSocket;
     private int port;
-    Class<?> clientReceiver, clientSender;
+    private Class<?> clientReceiver, clientSender;
 
     public ServerBase(int port, Class<?> clientReceiver, Class<?> clientSender,
                       ConnectionAuthenticatorLambda validationMethod) {
@@ -56,7 +56,6 @@ public class ServerBase extends Thread {
                 serverSocket = new ServerSocket(port);// 监听客户端的连接
                 Socket clientSocket = serverSocket.accept(); // 阻塞
                 ConnectionAuthenticator validator = new ConnectionAuthenticator(clientSocket, validationMethod, records);
-                validator.start();
             } catch (IOException e) {
                 Sys.err("Server", "A server thread has crashed!");
                 System.exit(1);
@@ -104,12 +103,15 @@ public class ServerBase extends Thread {
                 returnVal = this.func.auth(checker, writer);
                 this.status = "done";
                 if (returnVal > 0) {
-                    records.put(returnVal, new Client(target, checker, writer, clientReceiver, clientSender));
+                    records.put(
+                            returnVal,
+                            new Client(target, checker, writer, clientReceiver, clientSender)
+                    );
+                    returnVal = 0;
                 } else {
                     Sys.devInfo("Server", "A client sent invalid authentication info.");
                     returnVal = 3;
                 }
-                returnVal = 0;
             } catch (IOException e) {
                 Sys.devInfo("Server", "A client authentication has failed.");
                 returnVal = 2;

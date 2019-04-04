@@ -3,7 +3,7 @@ package top.chorg.System;
 import top.chorg.Kernel.Cmd.CmdResponder;
 import top.chorg.Kernel.Flag.FlagManager;
 import top.chorg.Kernel.Flag.Responders.*;
-import top.chorg.Kernel.Server.Base.Message;
+import top.chorg.Kernel.Communication.Message;
 
 /**
  * Master initializer, register all the global variables and responders.
@@ -111,7 +111,6 @@ public class Initializer {
      */
     private static void registerPrivateCommands() {
 
-        Global.cmdManPrivate.register("login", top.chorg.Kernel.Cmd.PrivateResponders.HandleLoginRequest.class);
         Global.cmdManPrivate.register("start", top.chorg.Kernel.Cmd.PrivateResponders.StartServer.class);
 
     }
