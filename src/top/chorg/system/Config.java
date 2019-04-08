@@ -57,7 +57,7 @@ public class Config {
             out.write(Global.gson.toJson(this));
             out.flush();
             out.close();
-            Sys.devInfoF("Config Saver", "Serialized data is saved in '%s'.", fileName);
+            Sys.devInfoF("Config Saver", "Json data is saved in '%s'.", fileName);
         } catch(IOException i) {
             Sys.errF("Config Saver", "Unable to open conf file for saving (%s)!", fileName);
             return false;

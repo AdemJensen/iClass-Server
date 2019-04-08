@@ -48,6 +48,7 @@ public class User {
     }
 
     public boolean updateUserInfo() {
+        // TODO: Power overflow?
         User res = UserQueryState.UpdateUserInfo(this.id);
         if (res == null) return false;
         this.assign(res);

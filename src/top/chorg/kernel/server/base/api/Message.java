@@ -7,8 +7,6 @@ public class Message {
     private String msgType;
     private String content;
 
-    public Message() {}
-
     public Message(String msgType, String content) {
         this.msgType = msgType;
         this.content = content;

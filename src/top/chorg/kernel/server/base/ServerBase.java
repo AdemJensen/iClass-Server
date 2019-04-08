@@ -1,5 +1,6 @@
 package top.chorg.kernel.server.base;
 
+import top.chorg.kernel.server.base.api.Message;
 import top.chorg.support.Timer;
 import top.chorg.system.Global;
 import top.chorg.system.Sys;
@@ -27,8 +28,23 @@ public class ServerBase extends Thread {
         connectionRequestReceiver.start();
     }
 
-    public boolean sendMessage(int to, Serializable message) {
-        return records.get(to).sender.send(message);
+    public boolean sendMessage(int to, Message message) {
+        return records.get(to).sender.send(message.encode());
+    }
+
+    public void bringOffline(int id) {
+        records.get(id).bringOffline();
+        records.remove(id);
+    }
+
+    public boolean isOnline(int id) {
+        if (records.containsKey(id)) {
+            if (records.get(id).isConnected()) return true;
+            else {
+                records.remove(id);
+                return false;
+            }
+        } else return false;
     }
 
     @Override
@@ -54,10 +70,24 @@ public class ServerBase extends Thread {
         public void run() {
             try {
                 serverSocket = new ServerSocket(port);// 监听客户端的连接
-                Socket clientSocket = serverSocket.accept(); // 阻塞
-                ConnectionAuthenticator validator = new ConnectionAuthenticator(clientSocket, validationMethod, records);
+                while (true) {
+                    Socket clientSocket = serverSocket.accept(); // 阻塞
+                    ConnectionAuthenticator validator = new ConnectionAuthenticator(clientSocket, validationMethod, records);
+                    new Timer(6000, (Object[] args) -> {
+                        if (validator.isAlive() && !validator.getStatus().equals("done" )) {
+                            this.interrupt();
+                            Sys.devInfoF(
+                                    "Server",
+                                    "A client authentication has timed out (Status : %s).",
+                                    validator.getStatus()
+                            );
+                            return 3;
+                        }
+                        return 0;
+                    });
+                }
             } catch (IOException e) {
-                Sys.err("Server", "A server thread has crashed!");
+                Sys.err("Server", "A server thread has crashed!" );
                 System.exit(1);
             }
         }
@@ -87,18 +117,6 @@ public class ServerBase extends Thread {
                 Sys.devInfo("Server", "A client is attempting to connect.");
                 BufferedReader checker = new BufferedReader(new InputStreamReader(target.getInputStream()));
                 PrintWriter writer = new PrintWriter(new OutputStreamWriter(target.getOutputStream()));
-                new Timer(6000, (Object[] args) -> {
-                    if (this.isAlive() && !this.getStatus().equals("done")) {
-                        this.interrupt();
-                        Sys.devInfoF(
-                                "Server",
-                                "A client authentication has timed out (Status : %s).",
-                                this.getStatus()
-                        );
-                        return 3;
-                    }
-                    return 0;
-                });
                 this.status = "authenticating";
                 returnVal = this.func.auth(checker, writer);
                 this.status = "done";

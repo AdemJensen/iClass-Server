@@ -2,7 +2,6 @@ package top.chorg.system;
 
 import top.chorg.kernel.cmd.CmdResponder;
 import top.chorg.kernel.flag.FlagManager;
-import top.chorg.kernel.flag.responders.*;
 import top.chorg.support.StringArrays;
 
 /**
@@ -85,23 +84,23 @@ public class Initializer {
      * Register all the flag responders.
      */
     private static void registerFlagResponders() {
-        FlagManager.register("-dev", new DevMode());
-        FlagManager.register("-Dev", new DevMode());
-        FlagManager.register("-DEV", new DevMode());
+        FlagManager.register("-dev", new top.chorg.kernel.flag.responders.DevMode());
+        FlagManager.register("-Dev", new top.chorg.kernel.flag.responders.DevMode());
+        FlagManager.register("-DEV", new top.chorg.kernel.flag.responders.DevMode());
 
-        FlagManager.register("-cmd", new CmdMode());
-        FlagManager.register("-Cmd", new CmdMode());
-        FlagManager.register("-CMD", new CmdMode());
+        FlagManager.register("-cmd", new top.chorg.kernel.flag.responders.CmdMode());
+        FlagManager.register("-Cmd", new top.chorg.kernel.flag.responders.CmdMode());
+        FlagManager.register("-CMD", new top.chorg.kernel.flag.responders.CmdMode());
 
-        FlagManager.register("-gui", new GuiMode());
-        FlagManager.register("-Gui", new GuiMode());
-        FlagManager.register("-GUI", new GuiMode());
+        FlagManager.register("-gui", new top.chorg.kernel.flag.responders.GuiMode());
+        FlagManager.register("-Gui", new top.chorg.kernel.flag.responders.GuiMode());
+        FlagManager.register("-GUI", new top.chorg.kernel.flag.responders.GuiMode());
 
-        FlagManager.register("-h", new Help());
-        FlagManager.register("--help", new Help());
+        FlagManager.register("-h", new top.chorg.kernel.flag.responders.Help());
+        FlagManager.register("--help", new top.chorg.kernel.flag.responders.Help());
 
-        FlagManager.register("-m", new ManualMode());
-        FlagManager.register("--manual", new ManualMode());
+        FlagManager.register("-m", new top.chorg.kernel.flag.responders.ManualMode());
+        FlagManager.register("--manual", new top.chorg.kernel.flag.responders.ManualMode());
     }
 
     /**
