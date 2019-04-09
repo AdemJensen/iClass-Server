@@ -13,10 +13,10 @@ public class StartServer extends CmdResponder {
 
     @Override
     public int response() {
-        if (args.length < 1) {
+        if (hasNextArg()) {
             Sys.err("Starter", "Too few arguments, type 'help start' for more information.");
         }
-        CmdResponder res = Global.cmdManPrivate.execute(StringArrays.assemble("start", args));
+        CmdResponder res = Global.cmdManPrivate.execute(StringArrays.assemble("start", remainArgs()));
         while (res.isAlive()) { }
         return 0;
     }

@@ -17,20 +17,20 @@ public class StartServer extends CmdResponder {
 
     @Override
     public int response() {
-        if (args.length < 1) {
+        if (!hasNextArg()) {
             Sys.err("Starter", "Invalid parameter while starting server.");
             Sys.exit(20);
         }
         boolean startDb = false;
         boolean startFileSrv = false;
         boolean startCmdSrv = false;
-        if (args[0].equals("all")) {
+        if (nextArg().equals("all")) {
             startDb = true;
             startFileSrv = true;
             startCmdSrv = true;
         } else {
-            for (String var : args) {
-                switch (var) {
+            while (hasNextArg()) {
+                switch (nextArg()) {
                     case "db":
                         startDb = true;
                         break;
@@ -41,7 +41,7 @@ public class StartServer extends CmdResponder {
                         startCmdSrv = true;
                         break;
                     default:
-                        Sys.warnF("Starter", "Ignored parameter while starting server ('%s').", var);
+                        Sys.warn("Starter", "Ignored parameter while starting server.");
                 }
             }
         }
