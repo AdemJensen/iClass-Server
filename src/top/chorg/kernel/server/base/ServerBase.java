@@ -127,7 +127,7 @@ public class ServerBase extends Thread {
                     );
                     returnVal = 0;
                 } else {
-                    Sys.devInfo("Server", "A client sent invalid authentication info.");
+                    // Sys.devInfo("Server", "A client sent invalid authentication info.");
                     returnVal = 3;
                 }
             } catch (IOException e) {

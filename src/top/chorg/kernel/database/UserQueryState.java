@@ -26,6 +26,21 @@ public class UserQueryState {
 
     }
 
+    public static boolean hasUser(String name) {
+        try {
+            PreparedStatement state = Global.database.prepareStatement(
+                    "SELECT id FROM users WHERE username=?"
+            );
+            state.setString(1, name);
+            var res = state.executeQuery();
+            return res.next();
+        } catch (SQLException e) {
+            Sys.err("DB", "Error while validating user.");
+            return false;
+        }
+
+    }
+
     public static User validateUserNormal(String name, String password) {
         try {
             PreparedStatement state = Global.database.prepareStatement(
