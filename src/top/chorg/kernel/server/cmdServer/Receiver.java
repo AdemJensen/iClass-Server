@@ -30,6 +30,7 @@ public class Receiver extends ClientReceiverBase {
                     throw new IllegalArgumentException();
                 Global.cmdManPrivate.execute(new String[]{
                         msg.getMsgType(),
+                        Integer.toString(clientObj.clientId),
                         msg.getContent()
                 });
             } catch (IOException e) {

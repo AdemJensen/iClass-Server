@@ -33,6 +33,10 @@ public class ServerBase extends Thread {
     }
 
     public void bringOffline(int id) {
+        if (!records.containsKey(id)) {
+            Sys.err("Bring Offline", "Client not online.");
+            return;
+        }
         records.get(id).bringOffline();
         records.remove(id);
     }
@@ -74,7 +78,7 @@ public class ServerBase extends Thread {
                     Socket clientSocket = serverSocket.accept(); // 阻塞
                     ConnectionAuthenticator validator = new ConnectionAuthenticator(clientSocket, validationMethod, records);
                     new Timer(6000, (Object[] args) -> {
-                        if (validator.isAlive() && !validator.getStatus().equals("done" )) {
+                        if (validator.isAlive() && !validator.getStatus().equals("done")) {
                             this.interrupt();
                             Sys.devInfoF(
                                     "Server",
@@ -123,7 +127,7 @@ public class ServerBase extends Thread {
                 if (returnVal > 0) {
                     records.put(
                             returnVal,
-                            new Client(target, checker, writer, clientReceiver, clientSender)
+                            new Client(returnVal, target, checker, writer, clientReceiver, clientSender)
                     );
                     returnVal = 0;
                 } else {

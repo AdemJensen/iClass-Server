@@ -62,7 +62,7 @@ public class Initializer {
      * Register all the initial global variables.
      */
     private static void registerGlobalVariables() {
-        Global.setVar("VERSION", "0.0.2");    // Master system version.
+        Global.setVar("VERSION", "0.0.3");    // Master system version.
 
         Global.setVar("AUTO_START_SERVICE", true);     // Start services automatically.
 
@@ -110,6 +110,7 @@ public class Initializer {
     private static void registerPrivateCommands() {
 
         Global.cmdManPrivate.register("start", top.chorg.kernel.cmd.privateResponders.StartServer.class);
+        Global.cmdManPrivate.register("logoff", top.chorg.kernel.cmd.privateResponders.Logoff.class);
 
     }
 
