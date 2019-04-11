@@ -11,7 +11,7 @@ import java.sql.SQLException;
 
 public class StartServer extends CmdResponder {
 
-    public StartServer(String[] args) {
+    public StartServer(String...args) {
         super(args);
     }
 

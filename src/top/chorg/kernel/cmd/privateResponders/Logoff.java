@@ -5,7 +5,7 @@ import top.chorg.system.Global;
 
 public class Logoff extends CmdResponder {
 
-    public Logoff(String[] args) {
+    public Logoff(String...args) {
         super(args);
     }
 
