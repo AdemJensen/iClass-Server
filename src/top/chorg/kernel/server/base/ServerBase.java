@@ -105,7 +105,7 @@ public class ServerBase extends Thread {
         private String status = "idle";
         private Socket target;
         private HashMap<Integer, Client> records;
-        private int returnVal = (int) Global.getVar("PROCESS_RETURN");
+        private int returnVal = Global.getVarCon("PROCESS_RETURN", int.class);
         private ConnectionAuthenticatorLambda func;
 
         public ConnectionAuthenticator(Socket target, ConnectionAuthenticatorLambda func, HashMap<Integer, Client> map) {

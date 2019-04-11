@@ -49,7 +49,7 @@ public class Initializer {
 
         //DEV_PRE_OPERATIONS();
 
-        if (((boolean) Global.getVar("AUTO_START_SERVICE"))) {
+        if (Global.getVarCon("AUTO_START_SERVICE", boolean.class)) {
             CmdResponder res = Global.cmdManPrivate.execute(StringArrays.assemble("start", new String[]{"all"}));
             while (res.isAlive()) { }
         }

@@ -34,6 +34,7 @@ public class CmdLineAdapter {
     }
 
     public static void outputDecoration() {
-        System.out.printf("[%d Active Clients] >>> ", Global.cmdServer.getActiveClientNum());
+        if (Global.cmdServer == null) System.out.print("[Server not established] >>> ");
+        else System.out.printf("[%d Active Clients] >>> ", Global.cmdServer.getActiveClientNum());
     }
 }

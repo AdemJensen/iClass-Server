@@ -1,6 +1,7 @@
 package top.chorg.system;
 
 import com.google.gson.Gson;
+import com.google.gson.internal.Primitives;
 import top.chorg.kernel.server.base.ServerBase;
 import top.chorg.kernel.cmd.CmdManager;
 
@@ -48,6 +49,32 @@ public class Global {
         } else {
             variables.put(key, value);
         }
+    }
+
+    /**
+     * Get variable from global variable field, if null will cause system failure.
+     *
+     * @param key Key of targeted global variable.
+     * @return Value of targeted global variable.
+     */
+    public static <T> T getVarCon(String key, Class<T> typeOfVal) {
+        if (!variables.containsKey(key)) throw new NullPointerException();
+        T result = Primitives.wrap(typeOfVal).cast(variables.get(key));
+        if (result == null) throw new NullPointerException();
+        return result;
+    }
+
+    /**
+     * Get variable from global variable field.
+     *
+     * @param key Key of targeted global variable.
+     * @return Value of targeted global variable.
+     */
+    public static <T> T getVar(String key, Class<T> typeOfVal) {
+        if (!variables.containsKey(key)) {
+            return null;
+        }
+        return Primitives.wrap(typeOfVal).cast(variables.get(key));
     }
 
     /**
