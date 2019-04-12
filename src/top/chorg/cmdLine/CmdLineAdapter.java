@@ -30,7 +30,7 @@ public class CmdLineAdapter {
                 while (responderObj.isAlive());
             }
         }
-        Global.cmdManPublic.execute(new String[]{"stop"});
+        Global.cmdManPublic.execute("stop");
     }
 
     public static void outputDecoration() {
