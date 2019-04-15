@@ -22,7 +22,6 @@ public class CmdLineAdapter {
                 continue;
             }
             CmdResponder responderObj = Global.cmdManPublic.execute(args);
-
             if (responderObj == null) {
                 Sys.err("Cmd Line", "Responder error: Unable to create responder instance.");
                 Sys.exit(14);

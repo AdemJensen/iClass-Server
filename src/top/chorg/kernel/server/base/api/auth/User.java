@@ -5,19 +5,19 @@ import top.chorg.support.Date;
 import top.chorg.support.DateTime;
 
 public class User {
-
     private int id, classId, sex, grade;
     private String username, realName, nickname, email, phone;
     private Date birthday;
     private DateTime regTime;
+    private char userGroup;
 
     public User(int id, int classId, int sex, int grade, String username, String realName,
-                String nickname, String email, String phone, Date birthday, DateTime regTime) {
-        this.assign(id, classId, sex, grade, username, realName, nickname, email, phone, birthday, regTime);
+                String nickname, String email, String phone, Date birthday, DateTime regTime, char userGroup) {
+        this.assign(id, classId, sex, grade, username, realName, nickname, email, phone, birthday, regTime, userGroup);
     }
 
     public void assign(int id, int classId, int sex, int grade, String username, String realName,
-                String nickname, String email, String phone, Date birthday, DateTime regTime) {
+                       String nickname, String email, String phone, Date birthday, DateTime regTime, char userGroup) {
         this.id = id;
         this.classId = classId;
         this.sex = sex;
@@ -29,6 +29,7 @@ public class User {
         this.phone = phone;
         this.birthday = birthday;
         this.regTime = regTime;
+        this.userGroup = userGroup;
     }
 
     public void assign(User alt) {
@@ -43,16 +44,9 @@ public class User {
                 alt.email,
                 alt.phone,
                 alt.birthday,
-                alt.regTime
+                alt.regTime,
+                alt.userGroup
         );
-    }
-
-    public boolean updateUserInfo() {
-        // TODO: Power overflow?
-        User res = UserQueryState.UpdateUserInfo(this.id);
-        if (res == null) return false;
-        this.assign(res);
-        return true;
     }
 
     public int getId() {
@@ -98,4 +92,17 @@ public class User {
     public DateTime getRegTime() {
         return regTime;
     }
+
+    public char getUserGroup() {
+        return userGroup;
+    }
+
+    public boolean updateUserInfo() {
+        // TODO: Power overflow?
+        User res = UserQueryState.UpdateUserInfo(this.id);
+        if (res == null) return false;
+        this.assign(res);
+        return true;
+    }
+
 }

@@ -15,7 +15,7 @@ public class UserQueryState {
         try {
             PreparedStatement state = Global.database.prepareStatement(
                     "SELECT id, username, classId, email, phone, birthday, sex, " +
-                            "realName, nickName, grade, regTime FROM users WHERE id=?"
+                            "realName, nickName, grade, regTime, userGroup FROM users WHERE id=?"
             );
             state.setInt(1, id);
             return assignUserInfo(state);
@@ -45,7 +45,7 @@ public class UserQueryState {
         try {
             PreparedStatement state = Global.database.prepareStatement(
                     "SELECT id, username, classId, email, phone, birthday, sex, " +
-                            "realName, nickname, grade, regTime FROM users WHERE username=? AND password=?"
+                            "realName, nickname, grade, regTime, userGroup FROM users WHERE username=? AND password=?"
             );
             state.setString(1, name);
             state.setString(2, password);
@@ -61,7 +61,7 @@ public class UserQueryState {
         try {
             PreparedStatement state = Global.database.prepareStatement(
                     "SELECT id, username, classId, email, phone, birthday, sex, " +
-                            "realName, nickname, grade, regTime FROM users WHERE username=? AND loginToken=?"
+                            "realName, nickname, grade, regTime, userGroup FROM users WHERE username=? AND loginToken=?"
             );
             state.setString(1, name);
             state.setString(2, token);
@@ -87,7 +87,8 @@ public class UserQueryState {
                 res.getString("email"),
                 res.getString("phone"),
                 res.getString("birthday") == null ? null : new Date(res.getString("birthday")),
-                new DateTime(res.getString("regTime"))
+                new DateTime(res.getString("regTime")),
+                res.getString("userGroup").charAt(0)
         );
     }
 

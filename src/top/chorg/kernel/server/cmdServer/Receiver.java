@@ -28,11 +28,11 @@ public class Receiver extends ClientReceiverBase {
                 Message msg = Message.decode(str);
                 if (msg == null || !Global.cmdManPrivate.cmdExists(msg.getMsgType()))
                     throw new IllegalArgumentException();
-                Global.cmdManPrivate.execute(new String[]{
+                Global.cmdManPrivate.execute(
                         msg.getMsgType(),
                         Integer.toString(clientObj.clientId),
                         msg.getContent()
-                });
+                );
             } catch (IOException e) {
                 Sys.warn("Cmd Server", "A client connection has lost.");
                 return;

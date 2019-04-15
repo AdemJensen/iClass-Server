@@ -112,6 +112,11 @@ public class Initializer {
         Global.cmdManPrivate.register("start", top.chorg.kernel.cmd.privateResponders.StartServer.class);
         Global.cmdManPrivate.register("logoff", top.chorg.kernel.cmd.privateResponders.Logoff.class);
 
+        Global.cmdManPrivate.register(
+                "fetchAnnounceList",
+                top.chorg.kernel.cmd.privateResponders.FetchAnnounceList.class
+        );
+
     }
 
     /**
