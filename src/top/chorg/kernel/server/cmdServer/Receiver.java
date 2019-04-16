@@ -34,7 +34,9 @@ public class Receiver extends ClientReceiverBase {
                         msg.getContent()
                 );
             } catch (IOException e) {
-                Sys.warn("Cmd Server", "A client connection has lost.");
+                if (Global.cmdServer.isOnline(clientObj.clientId)) {
+                    Global.cmdServer.bringOffline(clientObj.clientId, true);
+                }
                 return;
             } catch (ClassCastException | IllegalArgumentException e) {
                 Sys.devInfo("Cmd Server", "Received invalid message.");

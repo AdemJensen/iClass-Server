@@ -28,20 +28,27 @@ public class ServerBase extends Thread {
         connectionRequestReceiver.start();
     }
 
-    public boolean sendMessage(int to, Message message) {
+    public synchronized boolean sendMessage(int to, Message message) {
         return records.get(to).sender.send(message.encode());
     }
 
-    public void bringOffline(int id) {
-        if (!records.containsKey(id)) {
+    public synchronized void bringOffline(int id) {
+        bringOffline(id, false);
+    }
+
+    public synchronized void bringOffline(int id, boolean isForced) {
+        if (!records.containsKey(id) && !isForced) {
             Sys.err("Bring Offline", "Client not online.");
             return;
+        }
+        if (isForced) {
+            Sys.warn("Cmd Server", "A client connection has lost.");
         }
         records.get(id).bringOffline();
         records.remove(id);
     }
 
-    public boolean isOnline(int id) {
+    public synchronized boolean isOnline(int id) {
         if (records.containsKey(id)) {
             if (records.get(id).isConnected()) return true;
             else {
@@ -61,7 +68,7 @@ public class ServerBase extends Thread {
         super.interrupt();
     }
 
-    public int getActiveClientNum() {
+    public synchronized int getActiveClientNum() {
         return records.size();
     }
 

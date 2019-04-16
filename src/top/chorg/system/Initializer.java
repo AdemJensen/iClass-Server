@@ -110,11 +110,10 @@ public class Initializer {
     private static void registerPrivateCommands() {
 
         Global.cmdManPrivate.register("start", top.chorg.kernel.cmd.privateResponders.StartServer.class);
-        Global.cmdManPrivate.register("logoff", top.chorg.kernel.cmd.privateResponders.Logoff.class);
 
         Global.cmdManPrivate.register(
                 "fetchAnnounceList",
-                top.chorg.kernel.cmd.privateResponders.FetchAnnounceList.class
+                top.chorg.kernel.cmd.privateResponders.Announce.FetchList.class
         );
 
     }
@@ -125,13 +124,13 @@ public class Initializer {
      */
     private static void registerCommands() {
 
-        Global.cmdManPublic.register("exit", top.chorg.kernel.cmd.publicResponders.Exit.class);
-        Global.cmdManPublic.register("stop", top.chorg.kernel.cmd.publicResponders.Exit.class);
+        Global.cmdManPublic.register("exit", top.chorg.kernel.cmd.publicResponders.Sys.Exit.class);
+        Global.cmdManPublic.register("stop", top.chorg.kernel.cmd.publicResponders.Sys.Exit.class);
 
-        Global.cmdManPublic.register("help", top.chorg.kernel.cmd.publicResponders.Help.class);
-        Global.cmdManPublic.register("man", top.chorg.kernel.cmd.publicResponders.Help.class);
+        Global.cmdManPublic.register("help", top.chorg.kernel.cmd.publicResponders.Sys.Help.class);
+        Global.cmdManPublic.register("man", top.chorg.kernel.cmd.publicResponders.Sys.Help.class);
 
-        Global.cmdManPublic.register("start", top.chorg.kernel.cmd.publicResponders.StartServer.class);
+        Global.cmdManPublic.register("start", top.chorg.kernel.cmd.publicResponders.Sys.StartServer.class);
 
     }
 

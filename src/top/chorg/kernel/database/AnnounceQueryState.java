@@ -7,25 +7,43 @@ import top.chorg.system.Sys;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Objects;
 
 public class AnnounceQueryState {
 
-    public static FetchListResult[] fetchList(int classId, int level) {
+    public static FetchListResult[] fetchListInClass(int userId, int classId) {
         try {
+            int level = UserQueryState.getLevelInClass(userId, classId);
+            if (level == -2) throw new SQLException();
+            if (level == -1) return null;
             PreparedStatement state = Global.database.prepareStatement(
-                    "SELECT * FROM announcements WHERE classId=? AND level=?"
+                    "SELECT * FROM announcements WHERE classId=? AND (level < ? OR level = ?)"
             );
             state.setInt(1, classId);
             state.setInt(2, level);
+            state.setInt(3, level);
             return assignData(state);
-        } catch (SQLException e) {
-            Sys.err("DB", "Error while fetching announcement list.");
+        }  catch (SQLException e) {
+            Sys.err("DB", "Error while fetching announcement list (1).");
             return null;
         }
-
     }
 
-    public static FetchListResult[] fetchList(int publisher) {
+    public static FetchListResult[] fetchAllList(int userId) {
+        int[] classList = UserQueryState.getClasses(userId);
+        if (classList == null) return null;
+        ArrayList<FetchListResult> result = new ArrayList<>();
+        for (int i : classList) {
+            result.addAll(Arrays.asList(Objects.requireNonNull(fetchListInClass(userId, i))));
+        }
+        result.addAll(Arrays.asList(Objects.requireNonNull(fetchListInClass(userId, 0))));
+        FetchListResult[] res = new FetchListResult[result.size()];
+        result.toArray(res);
+        return res;
+    }
+
+    public static FetchListResult[] fetchPublishedList(int publisher) {
         try {
             PreparedStatement state = Global.database.prepareStatement(
                     "SELECT * FROM announcements WHERE publisher=?"

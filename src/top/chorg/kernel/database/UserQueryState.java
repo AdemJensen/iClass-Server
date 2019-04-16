@@ -8,13 +8,15 @@ import top.chorg.system.Sys;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class UserQueryState {
 
-    public static User UpdateUserInfo(int id) {
+    public static User getUser(int id) {
         try {
             PreparedStatement state = Global.database.prepareStatement(
-                    "SELECT id, username, classId, email, phone, birthday, sex, " +
+                    "SELECT id, username, email, phone, birthday, sex, " +
                             "realName, nickName, grade, regTime, userGroup FROM users WHERE id=?"
             );
             state.setInt(1, id);
@@ -44,7 +46,7 @@ public class UserQueryState {
     public static User validateUserNormal(String name, String password) {
         try {
             PreparedStatement state = Global.database.prepareStatement(
-                    "SELECT id, username, classId, email, phone, birthday, sex, " +
+                    "SELECT id, username, email, phone, birthday, sex, " +
                             "realName, nickname, grade, regTime, userGroup FROM users WHERE username=? AND password=?"
             );
             state.setString(1, name);
@@ -60,7 +62,7 @@ public class UserQueryState {
     public static User validateUserToken(String name, String token) {
         try {
             PreparedStatement state = Global.database.prepareStatement(
-                    "SELECT id, username, classId, email, phone, birthday, sex, " +
+                    "SELECT id, username, email, phone, birthday, sex, " +
                             "realName, nickname, grade, regTime, userGroup FROM users WHERE username=? AND loginToken=?"
             );
             state.setString(1, name);
@@ -73,12 +75,80 @@ public class UserQueryState {
 
     }
 
+    public static char getUserGroup(int userId) {
+        try {
+            PreparedStatement state = Global.database.prepareStatement(
+                    "SELECT userGroup FROM users WHERE id=?"
+            );
+            state.setInt(1, userId);
+            var res = state.executeQuery();
+            if (!res.next()) return 'B';
+            else return res.getString("userGroup").charAt(0);
+        } catch (SQLException e) {
+            Sys.err("DB", "Error while validating user.");
+            return 'B';
+        }
+    }
+
+    public static int[] getClasses(int userId) {
+        try {
+            char group = getUserGroup(userId);
+            if (group == 'B') {
+                return null;
+            }
+            PreparedStatement state;
+            if (group == 'S') {
+                state = Global.database.prepareStatement(
+                        "SELECT classId FROM class_relations"
+                );
+            } else {
+                state = Global.database.prepareStatement(
+                        "SELECT classId FROM class_relations WHERE userId=?"
+                );
+                state.setInt(1, userId);
+            }
+            var queryRes = state.executeQuery();
+            ArrayList<Integer> results = new ArrayList<>();
+            while (queryRes.next()) {
+                results.add(queryRes.getInt("classId"));
+            }
+            Integer[] res = new Integer[results.size()];
+            results.toArray(res);
+            return Arrays.stream(res).mapToInt(Integer::valueOf).toArray();
+        } catch (SQLException e) {
+            Sys.err("DB", "Error while getting user classes.");
+            return null;
+        }
+    }
+
+    public static int getLevelInClass(int userId, int classId) {
+        char group = getUserGroup(userId);
+        if (group == 'B') return -2;
+        if (group == 'S') return 2;
+        if (classId == 0) return 0;
+        try {
+            PreparedStatement state = Global.database.prepareStatement(
+                    "SELECT level FROM class_relations WHERE userId=? AND classId=?"
+            );
+            state.setInt(1, userId);
+            state.setInt(2, classId);
+            var queryRes = state.executeQuery();
+            if (!queryRes.next()) return -1;
+            return queryRes.getInt("level");
+        } catch (SQLException e) {
+            Sys.err("DB", "Error while getting user classes.");
+            return -2;
+        }
+
+    }
+
     private static User assignUserInfo(PreparedStatement state) throws SQLException {
         var res = state.executeQuery();
         if (!res.next()) return null;
+        int userId = res.getInt("id");
         return new User(
-                res.getInt("id"),
-                res.getInt("classId"),
+                userId,
+                getClasses(userId),
                 res.getInt("sex"),
                 res.getInt("grade"),
                 res.getString("username"),
