@@ -116,6 +116,10 @@ public class Initializer {
                 top.chorg.kernel.cmd.privateResponders.Announce.FetchList.class
         );
 
+        Global.cmdManPrivate.register(
+                "fetchAnnounceTemplate",
+                top.chorg.kernel.cmd.privateResponders.Announce.FetchTemplate.class
+        );
     }
 
     /**

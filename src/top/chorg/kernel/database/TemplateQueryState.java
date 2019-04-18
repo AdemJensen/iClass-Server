@@ -1,0 +1,37 @@
+package top.chorg.kernel.database;
+
+import top.chorg.kernel.server.base.api.announcements.FetchTemplateResult;
+import top.chorg.system.Global;
+import top.chorg.system.Sys;
+
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+public class TemplateQueryState {
+
+    public static FetchTemplateResult[] fetchTemplate(int userId) {
+        try {
+            PreparedStatement state = Global.database.prepareStatement(
+                    "SELECT * FROM templates WHERE owner=?"
+            );
+            state.setInt(1, userId);
+            var res = state.executeQuery();
+            ArrayList<FetchTemplateResult> result = new ArrayList<>();
+            while (res.next()) {
+                result.add(new FetchTemplateResult(
+                        res.getInt("id"),
+                        res.getString("name"),
+                        res.getString("title"),
+                        res.getString("content")
+                ));
+            }
+            FetchTemplateResult[] resA = new FetchTemplateResult[result.size()];
+            result.toArray(resA);
+            return resA;
+        } catch (SQLException e) {
+            Sys.err("DB", "Error while fetching template list (1).");
+            return null;
+        }
+    }
+}
