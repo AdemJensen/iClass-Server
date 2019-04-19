@@ -43,7 +43,6 @@ public class FetchList extends CmdResponder {
                 return 1;
             }
         }
-
         return 0;
     }
 

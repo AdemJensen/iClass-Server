@@ -97,20 +97,24 @@ public class UserQueryState {
                 return null;
             }
             PreparedStatement state;
+            ArrayList<Integer> results = new ArrayList<>();
             if (group == 'S') {
                 state = Global.database.prepareStatement(
-                        "SELECT classId FROM class_relations"
+                        "SELECT id FROM classes"
                 );
+                var queryRes = state.executeQuery();
+                while (queryRes.next()) {
+                    results.add(queryRes.getInt("id"));
+                }
             } else {
                 state = Global.database.prepareStatement(
                         "SELECT classId FROM class_relations WHERE userId=?"
                 );
                 state.setInt(1, userId);
-            }
-            var queryRes = state.executeQuery();
-            ArrayList<Integer> results = new ArrayList<>();
-            while (queryRes.next()) {
-                results.add(queryRes.getInt("classId"));
+                var queryRes = state.executeQuery();
+                while (queryRes.next()) {
+                    results.add(queryRes.getInt("classId"));
+                }
             }
             Integer[] res = new Integer[results.size()];
             results.toArray(res);

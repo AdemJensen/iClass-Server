@@ -34,4 +34,39 @@ public class TemplateQueryState {
             return null;
         }
     }
+
+    public static FetchTemplateResult fetchTemplateById(int id) {
+        try {
+            PreparedStatement state = Global.database.prepareStatement(
+                    "SELECT * FROM templates WHERE id=?"
+            );
+            state.setInt(1, id);
+            var res = state.executeQuery();
+            if (!res.next()) return null;
+            return new FetchTemplateResult(
+                    res.getInt("id"),
+                    res.getString("name"),
+                    res.getString("title"),
+                    res.getString("content")
+            );
+        }  catch (SQLException e) {
+            Sys.err("DB", "Error while fetching template by id (1).");
+            return null;
+        }
+    }
+
+    public static boolean belongsTo(int id, int userId) {
+        try {
+            PreparedStatement state = Global.database.prepareStatement(
+                    "SELECT * FROM templates WHERE id=? AND owner=?"
+            );
+            state.setInt(1, id);
+            state.setInt(2, userId);
+            var res = state.executeQuery();
+            return res.next();
+        }  catch (SQLException e) {
+            Sys.err("DB", "Error while fetching template by id (1).");
+            return false;
+        }
+    }
 }

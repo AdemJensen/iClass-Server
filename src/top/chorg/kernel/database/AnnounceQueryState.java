@@ -43,6 +43,31 @@ public class AnnounceQueryState {
         return res;
     }
 
+    public static FetchListResult fetchListById(int id) {
+        try {
+            PreparedStatement state = Global.database.prepareStatement(
+                    "SELECT * FROM announcements WHERE id=?"
+            );
+            state.setInt(1, id);
+            var res = state.executeQuery();
+            if (!res.next()) return null;
+            return new FetchListResult(
+                    res.getInt("id"),
+                    res.getString("title"),
+                    res.getString("content"),
+                    res.getString("date"),
+                    res.getString("validity"),
+                    res.getInt("classId"),
+                    res.getInt("level"),
+                    res.getInt("publisher"),
+                    res.getInt("status")
+            );
+        }  catch (SQLException e) {
+            Sys.err("DB", "Error while fetching announcement by id (1).");
+            return null;
+        }
+    }
+
     public static FetchListResult[] fetchPublishedList(int publisher) {
         try {
             PreparedStatement state = Global.database.prepareStatement(

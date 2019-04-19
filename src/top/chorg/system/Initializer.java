@@ -115,11 +115,35 @@ public class Initializer {
                 "fetchAnnounceList",
                 top.chorg.kernel.cmd.privateResponders.Announce.FetchList.class
         );
-
         Global.cmdManPrivate.register(
                 "fetchAnnounceTemplate",
                 top.chorg.kernel.cmd.privateResponders.Announce.FetchTemplate.class
         );
+        Global.cmdManPrivate.register(
+                "addAnnounce",
+                top.chorg.kernel.cmd.privateResponders.Announce.Add.class
+        );
+        Global.cmdManPrivate.register(
+                "addAnnounceTemplate",
+                top.chorg.kernel.cmd.privateResponders.Announce.AddTemplate.class
+        );
+        Global.cmdManPrivate.register(
+                "alterAnnounce",
+                top.chorg.kernel.cmd.privateResponders.Announce.Alter.class
+        );
+        Global.cmdManPrivate.register(
+                "alterAnnounceTemplate",
+                top.chorg.kernel.cmd.privateResponders.Announce.AlterTemplate.class
+        );
+        Global.cmdManPrivate.register(
+                "delAnnounce",
+                top.chorg.kernel.cmd.privateResponders.Announce.Del.class
+        );
+        Global.cmdManPrivate.register(
+                "delAnnounceTemplate",
+                top.chorg.kernel.cmd.privateResponders.Announce.DelTemplate.class
+        );
+
     }
 
     /**
