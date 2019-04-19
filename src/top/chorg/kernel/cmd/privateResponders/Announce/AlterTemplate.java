@@ -1,7 +1,6 @@
 package top.chorg.kernel.cmd.privateResponders.Announce;
 
 import top.chorg.kernel.cmd.CmdResponder;
-import top.chorg.kernel.database.AnnounceUpdateState;
 import top.chorg.kernel.database.TemplateQueryState;
 import top.chorg.kernel.database.TemplateUpdateState;
 import top.chorg.kernel.server.base.api.Message;

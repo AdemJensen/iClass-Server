@@ -1,8 +1,6 @@
 package top.chorg.kernel.database;
 
-import top.chorg.kernel.server.base.api.announcements.AddRequest;
 import top.chorg.kernel.server.base.api.announcements.AddTemplateRequest;
-import top.chorg.kernel.server.base.api.announcements.AlterRequest;
 import top.chorg.kernel.server.base.api.announcements.AlterTemplateRequest;
 import top.chorg.system.Global;
 import top.chorg.system.Sys;

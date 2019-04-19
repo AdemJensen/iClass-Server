@@ -6,9 +6,6 @@ import top.chorg.system.Sys;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Objects;
 
 public class AnnounceUpdateState {
 
