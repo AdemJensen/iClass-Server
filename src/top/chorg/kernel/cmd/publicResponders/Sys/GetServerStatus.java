@@ -1,4 +1,4 @@
-package top.chorg.kernel.cmd.publicResponders.Sys;
+package top.chorg.kernel.cmd.publicResponders.sys;
 
 public class GetServerStatus {
 
