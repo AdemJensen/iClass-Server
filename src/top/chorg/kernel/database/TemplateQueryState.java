@@ -30,7 +30,7 @@ public class TemplateQueryState {
             result.toArray(resA);
             return resA;
         } catch (SQLException e) {
-            Sys.err("DB", "Error while fetching template list (1).");
+            Sys.err("DB", "Error while fetching template list.");
             return null;
         }
     }
@@ -50,7 +50,7 @@ public class TemplateQueryState {
                     res.getString("content")
             );
         }  catch (SQLException e) {
-            Sys.err("DB", "Error while fetching template by id (1).");
+            Sys.err("DB", "Error while fetching template by id.");
             return null;
         }
     }
@@ -65,7 +65,7 @@ public class TemplateQueryState {
             var res = state.executeQuery();
             return res.next();
         }  catch (SQLException e) {
-            Sys.err("DB", "Error while fetching template by id (1).");
+            Sys.err("DB", "Error while judging template relationship.");
             return false;
         }
     }

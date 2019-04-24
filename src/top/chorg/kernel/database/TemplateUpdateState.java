@@ -24,7 +24,7 @@ public class TemplateUpdateState {
             state.setInt(4, owner);
             return state.executeUpdate() != 0;
         }  catch (SQLException e) {
-            Sys.err("DB", "Error while adding template (1).");
+            Sys.err("DB", "Error while adding template.");
             return false;
         }
     }
@@ -43,7 +43,7 @@ public class TemplateUpdateState {
             state.setInt(4, request.id);
             return state.executeUpdate() != 0;
         }  catch (SQLException e) {
-            Sys.err("DB", "Error while altering template (1).");
+            Sys.err("DB", "Error while altering template.");
             return false;
         }
     }
@@ -56,7 +56,7 @@ public class TemplateUpdateState {
             state.setInt(1, id);
             return state.executeUpdate() != 0;
         }  catch (SQLException e) {
-            Sys.err("DB", "Error while deleting template (1).");
+            Sys.err("DB", "Error while deleting template.");
             return false;
         }
     }

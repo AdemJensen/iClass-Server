@@ -26,7 +26,7 @@ public class AnnounceUpdateState {
             state.setInt(7, request.status);
             return state.executeUpdate() != 0;
         }  catch (SQLException e) {
-            Sys.err("DB", "Error while adding announcement (1).");
+            Sys.err("DB", "Error while adding announcement.");
             return false;
         }
     }
@@ -48,7 +48,7 @@ public class AnnounceUpdateState {
             state.setInt(7, request.id);
             return state.executeUpdate() != 0;
         }  catch (SQLException e) {
-            Sys.err("DB", "Error while adding announcement (1).");
+            Sys.err("DB", "Error while altering announcement.");
             return false;
         }
     }
@@ -61,7 +61,7 @@ public class AnnounceUpdateState {
             state.setInt(1, id);
             return state.executeUpdate() != 0;
         }  catch (SQLException e) {
-            Sys.err("DB", "Error while deleting announce (1).");
+            Sys.err("DB", "Error while deleting announce.");
             return false;
         }
     }

@@ -1465,87 +1465,100 @@ S = super admin.</Comment>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="342" parent="284" name="status">
+    <column id="342" parent="284" name="isVoted">
       <Position>4</Position>
-      <Comment>0 = over, 1 = can vote, 2 = can view but can&apos;t vote, 3 = can manage but can’t vote</Comment>
+      <Comment>0 = not voted, 1 = voted.</Comment>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
+      <DefaultExpression>0</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="343" parent="284" name="PRIMARY">
+    <column id="343" parent="284" name="ops">
+      <Position>5</Position>
+      <Comment>Warn: index start from 0</Comment>
+      <DataType>text|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="344" parent="284" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="344" parent="285" name="id">
+    <column id="345" parent="285" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="345" parent="285" name="title">
+    <column id="346" parent="285" name="title">
       <Position>2</Position>
       <DataType>text|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="346" parent="285" name="selections">
+    <column id="347" parent="285" name="content">
       <Position>3</Position>
       <DataType>text|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="347" parent="285" name="date">
+    <column id="348" parent="285" name="selections">
       <Position>4</Position>
-      <DataType>datetime|0s</DataType>
+      <DataType>text|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="348" parent="285" name="validity">
+    <column id="349" parent="285" name="date">
       <Position>5</Position>
       <DataType>datetime|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="349" parent="285" name="method">
+    <column id="350" parent="285" name="validity">
       <Position>6</Position>
+      <DataType>datetime|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="351" parent="285" name="method">
+      <Position>7</Position>
       <Comment>0 = normal, 1 = pass over</Comment>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
-      <DefaultExpression>0</DefaultExpression>
+      <DefaultExpression>1</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="350" parent="285" name="classId">
-      <Position>7</Position>
+    <column id="352" parent="285" name="classId">
+      <Position>8</Position>
       <Comment>0 = For all classes</Comment>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>0</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="351" parent="285" name="level">
-      <Position>8</Position>
+    <column id="353" parent="285" name="level">
+      <Position>9</Position>
       <Comment>0 = students, 1 = admins, 2 = super admins</Comment>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>0</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="352" parent="285" name="status">
-      <Position>9</Position>
+    <column id="354" parent="285" name="status">
+      <Position>10</Position>
       <Comment>0 = closed and publish results. 1 = closed, 2 = ongoing</Comment>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="353" parent="285" name="publisher">
-      <Position>10</Position>
+    <column id="355" parent="285" name="publisher">
+      <Position>11</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="354" parent="285" name="PRIMARY">
+    <key id="356" parent="285" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>

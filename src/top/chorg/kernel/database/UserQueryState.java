@@ -22,7 +22,7 @@ public class UserQueryState {
             state.setInt(1, id);
             return assignUserInfo(state);
         } catch (SQLException e) {
-            Sys.err("DB", "Error while validating user.");
+            Sys.err("DB", "Error while getting user.");
             return null;
         }
 
@@ -37,7 +37,7 @@ public class UserQueryState {
             var res = state.executeQuery();
             return res.next();
         } catch (SQLException e) {
-            Sys.err("DB", "Error while validating user.");
+            Sys.err("DB", "Error while validating user existence.");
             return false;
         }
 
@@ -53,7 +53,7 @@ public class UserQueryState {
             state.setString(2, password);
             return assignUserInfo(state);
         } catch (SQLException e) {
-            Sys.err("DB", "Error while validating user.");
+            Sys.err("DB", "Error while validating user (Normal).");
             return null;
         }
 
@@ -69,7 +69,7 @@ public class UserQueryState {
             state.setString(2, token);
             return assignUserInfo(state);
         } catch (SQLException e) {
-            Sys.err("DB", "Error while validating user.");
+            Sys.err("DB", "Error while validating user (Token).");
             return null;
         }
 
@@ -85,7 +85,7 @@ public class UserQueryState {
             if (!res.next()) return 'B';
             else return res.getString("userGroup").charAt(0);
         } catch (SQLException e) {
-            Sys.err("DB", "Error while validating user.");
+            Sys.err("DB", "Error while getting user group.");
             return 'B';
         }
     }
@@ -140,10 +140,30 @@ public class UserQueryState {
             if (!queryRes.next()) return -1;
             return queryRes.getInt("level");
         } catch (SQLException e) {
-            Sys.err("DB", "Error while getting user classes.");
+            Sys.err("DB", "Error while getting user level.");
             return -2;
         }
 
+    }
+
+    public static int[] getClassmates(int classId) {
+        try {
+            PreparedStatement state = Global.database.prepareStatement(
+                    "SELECT userId FROM class_relations WHERE classId=?"
+            );
+            state.setInt(1, classId);
+            var res = state.executeQuery();
+            ArrayList<Integer> result = new ArrayList<>();
+            while (res.next()) {
+                result.add(res.getInt("userId"));
+            }
+            Integer[] re = new Integer[result.size()];
+            //result.toArray(re);
+            return Arrays.stream(result.toArray(re)).mapToInt(Integer::valueOf).toArray();
+        } catch (SQLException e) {
+            Sys.err("DB", "Error while fetching classmates.");
+            return null;
+        }
     }
 
     private static User assignUserInfo(PreparedStatement state) throws SQLException {

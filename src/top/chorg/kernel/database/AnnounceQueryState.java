@@ -25,7 +25,7 @@ public class AnnounceQueryState {
             state.setInt(3, level);
             return assignData(state);
         }  catch (SQLException e) {
-            Sys.err("DB", "Error while fetching announcement list (1).");
+            Sys.err("DB", "Error while fetching announcement list.");
             return null;
         }
     }
@@ -63,7 +63,7 @@ public class AnnounceQueryState {
                     res.getInt("status")
             );
         }  catch (SQLException e) {
-            Sys.err("DB", "Error while fetching announcement by id (1).");
+            Sys.err("DB", "Error while fetching announcement by id.");
             return null;
         }
     }
