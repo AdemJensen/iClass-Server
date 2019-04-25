@@ -10,6 +10,8 @@ import top.chorg.system.Sys;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Random;
 
 public class VoteUpdateState {
     public static boolean addVote(AddRequest request, int publisher) {
@@ -75,6 +77,15 @@ public class VoteUpdateState {
                 );  // Clear all the vote info to match.
                 state.setInt(1, request.id);
                 state.executeUpdate();
+                state = Global.database.prepareStatement(
+                        "INSERT INTO vote_relations " +
+                                "(voteId, userId, isVoted, ops) " +
+                                "VALUES " +
+                                "(?, ?, 0, '[]')"
+                );
+                state.setInt(1, request.id);
+                state.setInt(2, client);
+                state.executeUpdate();
                 return addRelations(request.id, request.classId, request.level);
             } else if (needsRefresh) {
                 state = Global.database.prepareStatement(
@@ -91,9 +102,47 @@ public class VoteUpdateState {
     }
 
     private static boolean addRelations(int voteId, int classId, int level) throws SQLException {
+        // TODO: Add notification to the client.
         PreparedStatement state;
         int[] classmates = UserQueryState.getClassmates(classId);
         if (classmates == null) return false;
+        state = Global.database.prepareStatement(
+                "SELECT userId FROM vote_relations WHERE voteId=?"
+        );
+        state.setInt(1, voteId);
+        var res = state.executeQuery();
+        int remain = classmates.length;
+        for (int i = 0; i < remain; i++) {
+            if (UserQueryState.getLevelInClass(classmates[i], classId) < level) {
+                classmates[i] = classmates[remain - 1];
+                remain--;
+            }
+        }
+        while (res.next()) {
+            int now = res.getInt("userId");
+            for (int i = 0; i < remain; i++) {
+                if (classmates[i] == now) {
+                    classmates[i] = classmates[remain - 1];
+                    remain--;
+                    break;
+                }
+            }
+        }
+        ArrayList<Integer> arr = new ArrayList<>();
+        if (remain <= 5) {
+            for (int i = 0; i < remain; i++) arr.add(classmates[i]);
+        } else {
+            boolean[] isUsed = new boolean[remain];
+            int last = 5;
+            Random rand = new Random();
+            while (last > 0) {
+                int got = rand.nextInt(remain);
+                if (isUsed[got]) continue;
+                last--;
+                arr.add(classmates[got]);
+                isUsed[got] = true;
+            }
+        }
         state = Global.database.prepareStatement(
                 "INSERT INTO vote_relations " +
                         "(voteId, userId, isVoted, ops) " +
@@ -101,8 +150,9 @@ public class VoteUpdateState {
                         "(?, ?, 0, '[]')"
         );
         state.setInt(1, voteId);
-        for (int classmate : classmates) {
-            if (UserQueryState.getLevelInClass(classmate, classId) < level) continue;
+        Integer[] selected = new Integer[arr.size()];
+        arr.toArray(selected);
+        for (int classmate : selected) {
             state.setInt(2, classmate);
             state.executeUpdate();
         }
@@ -137,7 +187,11 @@ public class VoteUpdateState {
             state.setString(1, Global.gson.toJson(request.ops));
             state.setInt(2, userId);
             state.setInt(3, request.voteId);
-            return state.executeUpdate() != 0;
+            if (state.executeUpdate() == 0) return false;
+            FetchInfoResult vote = VoteQueryState.fetchInfo(request.voteId, userId);
+            if (vote == null) return false;
+            addRelations(request.voteId, vote.classId, vote.level);
+            return true;
         } catch (SQLException e) {
             Sys.err("DB", "Error while making vote action.");
             return false;
