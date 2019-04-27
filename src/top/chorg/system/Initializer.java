@@ -172,6 +172,12 @@ public class Initializer {
                 "fetchVoteResult",
                 top.chorg.kernel.cmd.privateResponders.vote.QueryResult.class
         );
+
+        Global.cmdManPrivate.register("sendChat", top.chorg.kernel.cmd.privateResponders.chat.Send.class);
+        Global.cmdManPrivate.register(
+                "fetchChatHistory",
+                top.chorg.kernel.cmd.privateResponders.chat.FetchHistory.class
+        );
     }
 
     /**
