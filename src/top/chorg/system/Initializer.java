@@ -178,6 +178,10 @@ public class Initializer {
                 "fetchChatHistory",
                 top.chorg.kernel.cmd.privateResponders.chat.FetchHistory.class
         );
+
+        Global.cmdManPrivate.register("uploadFile", top.chorg.kernel.cmd.privateResponders.file.Upload.class);
+        Global.cmdManPrivate.register("downloadFile", top.chorg.kernel.cmd.privateResponders.file.Download.class);
+
     }
 
     /**

@@ -4,9 +4,12 @@ import com.google.gson.Gson;
 import com.google.gson.internal.Primitives;
 import top.chorg.kernel.server.base.ServerBase;
 import top.chorg.kernel.cmd.CmdManager;
+import top.chorg.kernel.server.fileServer.FileServer;
 
+import java.io.File;
 import java.sql.Connection;
 import java.util.HashMap;
+import java.util.Random;
 
 /**
  * Contains all the global variables and configuration variables.
@@ -26,9 +29,11 @@ public class Global {
     public static CmdManager cmdManPrivate = new CmdManager();
 
     public static ServerBase cmdServer;
-    public static ServerBase fileServer;
+    public static FileServer fileServer;
 
     public static Connection database;
+
+    public static Random random = new Random();
 
     public static Gson gson = new Gson();    // Json utils.
     public static Config conf = new Config();     // Contains configuration variables.

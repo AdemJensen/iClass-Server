@@ -62,6 +62,7 @@ public class StartServer extends CmdResponder {
         }
         Sys.info("Starter", "Starting File server...");
         Global.fileServer = new FileServer(Global.conf.File_Server_Port);
+        Global.fileServer.start();
         Sys.info("Starter", "File server successfully started.");
     }
 
