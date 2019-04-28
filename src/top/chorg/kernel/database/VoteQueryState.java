@@ -51,7 +51,7 @@ public class VoteQueryState {
             var res = state.executeQuery();
             if (!res.next()) return null;
             PreparedStatement subState = Global.database.prepareStatement(
-                    "SELECT isVoted, ops FROM vote_relations WHERE voteId=? AND userId=?"
+                    "SELECT isVoted, ops, addition FROM vote_relations WHERE voteId=? AND userId=?"
             );
             subState.setInt(1, id);
             subState.setInt(2, userId);
@@ -70,7 +70,8 @@ public class VoteQueryState {
                     res.getInt("status"),
                     res.getInt("publisher"),
                     subRes.getInt("isVoted") == 1,
-                    Global.gson.fromJson(subRes.getString("ops"), int[].class)
+                    Global.gson.fromJson(subRes.getString("ops"), int[].class),
+                    subRes.getString("addition")
             );
         }  catch (SQLException e) {
             Sys.err("DB", "Error while fetching vote by id.");

@@ -182,11 +182,12 @@ public class VoteUpdateState {
         try {
             // TODO: Lack time validation
             PreparedStatement state = Global.database.prepareStatement(
-                    "UPDATE vote_relations SET isVoted=1, ops=? WHERE userId=? AND voteId=?"
+                    "UPDATE vote_relations SET isVoted=1, ops=?, addition=? WHERE userId=? AND voteId=?"
             );
             state.setString(1, Global.gson.toJson(request.ops));
-            state.setInt(2, userId);
-            state.setInt(3, request.voteId);
+            state.setString(2, request.addition);
+            state.setInt(3, userId);
+            state.setInt(4, request.voteId);
             if (state.executeUpdate() == 0) return false;
             FetchInfoResult vote = VoteQueryState.fetchInfo(request.voteId, userId);
             if (vote == null) return false;
