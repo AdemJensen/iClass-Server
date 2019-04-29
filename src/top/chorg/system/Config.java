@@ -10,6 +10,7 @@ public class Config {
     public int DB_Port;
     public String DB_Username;
     public String DB_Password;
+    public String[] modList;
 
     public void assign(Config c) {
         Cmd_Server_Port = c.Cmd_Server_Port;
@@ -18,6 +19,7 @@ public class Config {
         DB_Port = c.DB_Port;
         DB_Username = c.DB_Username;
         DB_Password = c.DB_Password;
+        modList = c.modList;
     }
 
     public boolean load() {

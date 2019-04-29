@@ -4,5 +4,6 @@
   "DB_Url":"jdbc:mysql://localhost:3306/DB_iClass?useSSL\u003dfalse",
   "DB_Port":3306,
   "DB_Username":"master",
-  "DB_Password":"123456"
+  "DB_Password":"123456",
+  "modList":[]
 }
