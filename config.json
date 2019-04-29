@@ -1,1 +1,8 @@
-{"Cmd_Server_Port":9998,"File_Server_Port":9999,"DB_Url":"jdbc:mysql://localhost:3306/DB_iClass?useSSL\u003dfalse","DB_Port":3306,"DB_Username":"master","DB_Password":"123456"}
+{
+  "Cmd_Server_Port":9998,
+  "File_Server_Port":9999,
+  "DB_Url":"jdbc:mysql://localhost:3306/DB_iClass?useSSL\u003dfalse",
+  "DB_Port":3306,
+  "DB_Username":"master",
+  "DB_Password":"123456"
+}
