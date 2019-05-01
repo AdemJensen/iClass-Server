@@ -66,7 +66,7 @@ public class FileServer extends Thread {
         private void upload(PrintWriter pw, BufferedReader br) throws Exception {
             String name = br.readLine();
             int id = Integer.parseInt(br.readLine());
-            var fo = new FileOutputStream(String.format("fileLib/%d.file", id));
+            var fo = new FileOutputStream(String.format("fileLib" + File.separator + "%d.file", id));
             pw.println("READY");
             pw.flush();
             var bytes = new byte[1024];
@@ -109,7 +109,7 @@ public class FileServer extends Thread {
             pw.println("READY");
             pw.println(info.name);
             pw.flush();
-            var fin = new FileInputStream(String.format("fileLib/%d.file", fileId));
+            var fin = new FileInputStream(String.format("fileLib" + File.separator + "%d.file", fileId));
             var bytes = new byte[1024];
             var os = socket.getOutputStream();
             for (int length; (length = fin.read(bytes)) != -1; ) {

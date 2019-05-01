@@ -174,6 +174,16 @@ public class Sys {
     }
 
     /**
+     * To judge if current environment is development env or not.
+     * Default value is false.
+     *
+     * @return True if current environment is development env.
+     */
+    public static boolean isGuiDevEnv() {
+        return false;
+    }
+
+    /**
      * Exit the system with a return value.
      * If in Command Line mode, this method will exit the program directly with a value.
      * If in GUI mode, a window will be popped up to indicate problems.

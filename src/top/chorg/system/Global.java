@@ -2,6 +2,7 @@ package top.chorg.system;
 
 import com.google.gson.Gson;
 import com.google.gson.internal.Primitives;
+import top.chorg.gui.GuiAdapter;
 import top.chorg.kernel.server.base.ServerBase;
 import top.chorg.kernel.cmd.CmdManager;
 import top.chorg.kernel.server.fileServer.FileServer;
@@ -32,6 +33,8 @@ public class Global {
     public static FileServer fileServer;
 
     public static Connection database;
+
+    public static GuiAdapter guiAdapter;
 
     public static Random random = new Random();
 

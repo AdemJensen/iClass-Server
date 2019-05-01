@@ -17,14 +17,16 @@ public class ChatQueryState {
             PreparedStatement state;
             if (request.type == 1) {
                 state = Global.database.prepareStatement(
-                        "SELECT * FROM chats WHERE type=1 AND (toId=? OR (fromId=? AND toId=?))"
+                        "SELECT * FROM chats WHERE type=1 AND (toId=? OR (fromId=? AND toId=?)) " +
+                                "ORDER BY time DESC"
                 );
                 state.setInt(1, request.toId);
                 state.setInt(2, request.toId);
                 state.setInt(3, userId);
             } else {
                 state = Global.database.prepareStatement(
-                        "SELECT * FROM chats WHERE type=2 AND ((fromId=? AND toId=?) OR (fromId=? AND toId=?))"
+                        "SELECT * FROM chats WHERE type=2 AND ((fromId=? AND toId=?) OR (fromId=? AND toId=?)) " +
+                                "ORDER BY time DESC"
                 );
                 state.setInt(1, request.toId);
                 state.setInt(2, userId);

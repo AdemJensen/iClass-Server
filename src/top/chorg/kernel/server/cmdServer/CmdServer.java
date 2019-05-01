@@ -44,7 +44,7 @@ public class CmdServer extends ServerBase {
                                             "R-login",
                                             Global.gson.toJson(new AuthResult(
                                                     "Denied",
-                                                    "Username or password incorrect."
+                                                    "Username or password incorrect"
                                             ))
                                     )).encode());
                                     writer.flush();
@@ -53,8 +53,8 @@ public class CmdServer extends ServerBase {
                                 } else {
                                     if (Global.cmdServer.isOnline(res.getId())) {
                                         Global.cmdServer.sendMessage(res.getId(), new Message(
-                                                "status",
-                                                "You have logged in somewhere else."
+                                                "forceOffline",
+                                                "You have logged in somewhere else"
                                         ));
                                         Global.cmdServer.bringOffline(res.getId());
                                     }
@@ -111,7 +111,7 @@ public class CmdServer extends ServerBase {
                                             "R-register",
                                             Global.gson.toJson(new AuthResult(
                                                     "Denied",
-                                                    "Username already exists."
+                                                    "Username already exists"
                                             ))
                                     )).encode());
                                     writer.flush();
@@ -123,7 +123,7 @@ public class CmdServer extends ServerBase {
                                             "R-register",
                                             Global.gson.toJson(new AuthResult(
                                                     "Denied",
-                                                    "Password invalid (hashcode incorrect)."
+                                                    "Password invalid (hashcode incorrect)"
                                             ))
                                     )).encode());
                                     writer.flush();
@@ -135,7 +135,7 @@ public class CmdServer extends ServerBase {
                                             "R-register",
                                             Global.gson.toJson(new AuthResult(
                                                     "Granted",
-                                                    "Successfully registered."
+                                                    "Successfully registered"
                                             ))
                                     )).encode());
                                     writer.flush();
@@ -146,7 +146,7 @@ public class CmdServer extends ServerBase {
                                             "R-register",
                                             Global.gson.toJson(new AuthResult(
                                                     "Denied",
-                                                    "Unknown error."
+                                                    "Unknown error"
                                             ))
                                     )).encode());
                                     writer.flush();
@@ -164,7 +164,7 @@ public class CmdServer extends ServerBase {
                                 "login",
                                 Global.gson.toJson(new AuthResult(
                                         "Denied",
-                                        "Invalid auth info."
+                                        "Invalid auth info"
                                 ))
                         )).encode());
                         writer.flush();

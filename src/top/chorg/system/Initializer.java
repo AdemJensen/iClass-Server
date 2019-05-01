@@ -2,7 +2,14 @@ package top.chorg.system;
 
 import top.chorg.kernel.cmd.CmdResponder;
 import top.chorg.kernel.flag.FlagManager;
+import top.chorg.support.JarLoader;
 import top.chorg.support.StringArrays;
+
+import java.io.File;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * Master initializer, register all the global variables and responders.
@@ -47,7 +54,7 @@ public class Initializer {
 
         FlagManager.execute(flagList);  // Start flag option processor.
 
-        //DEV_PRE_OPERATIONS();
+        loadMods();
 
         if (Global.getVarCon("AUTO_START_SERVICE", boolean.class)) {
             CmdResponder res = Global.cmdManPrivate.execute(StringArrays.assemble("start", new String[]{"all"}));
@@ -55,6 +62,30 @@ public class Initializer {
         }
         Global.dropVar("AUTO_START_SERVICE");
 
+    }
+
+
+    private static void loadMods() {
+        for (String mod : Global.conf.modList) {
+            try {
+                JarLoader a = new JarLoader(
+                        new URL[]{
+                                new URL("file://" + new File("extensions" + File.separator + mod)
+                                        .getAbsolutePath())
+                        }
+                );
+                Class<?> cl = a.loadClass("top.chorg.ModAdapter");
+                //System.out.println(cl.toString());
+                Method testMethod = cl.getMethod("init");
+                testMethod.invoke(
+                        cl.getDeclaredConstructor().newInstance()
+                );
+                Sys.devInfoF("Mod loader", "Loaded mod: %s", mod);
+            } catch (MalformedURLException | ClassNotFoundException | NoSuchMethodException
+                    | IllegalAccessException | InstantiationException | InvocationTargetException e) {
+                Sys.errF("Mod loader", "Error while loading mod '%s': %s", mod, e.getMessage());
+            }
+        }
     }
 
     /**
@@ -110,6 +141,27 @@ public class Initializer {
     private static void registerPrivateCommands() {
 
         Global.cmdManPrivate.register("start", top.chorg.kernel.cmd.privateResponders.StartServer.class);
+
+        Global.cmdManPrivate.register("alterUser", top.chorg.kernel.cmd.privateResponders.auth.AlterUser.class);
+        Global.cmdManPrivate.register("changePassword",
+                top.chorg.kernel.cmd.privateResponders.auth.ChangePassword.class);
+        Global.cmdManPrivate.register("fetchUserInfo",
+                top.chorg.kernel.cmd.privateResponders.auth.FetchUserInfo.class);
+        Global.cmdManPrivate.register("getNickName",
+                top.chorg.kernel.cmd.privateResponders.auth.GetNickName.class);
+        Global.cmdManPrivate.register("getRealName",
+                top.chorg.kernel.cmd.privateResponders.auth.GetRealName.class);
+        Global.cmdManPrivate.register("getUserName",
+                top.chorg.kernel.cmd.privateResponders.auth.GetUserName.class);
+        Global.cmdManPrivate.register("judgeOnline",
+                top.chorg.kernel.cmd.privateResponders.auth.IsUserOnline.class);
+
+        Global.cmdManPrivate.register("joinClass", top.chorg.kernel.cmd.privateResponders.classes.JoinClass.class);
+        Global.cmdManPrivate.register("exitClass", top.chorg.kernel.cmd.privateResponders.classes.ExitClass.class);
+        Global.cmdManPrivate.register("fetchClassInfo",
+                top.chorg.kernel.cmd.privateResponders.classes.FetchClassInfo.class);
+        Global.cmdManPrivate.register("fetchOnline",
+                top.chorg.kernel.cmd.privateResponders.classes.FetchOnline.class);
 
         Global.cmdManPrivate.register(
                 "fetchAnnounceList",

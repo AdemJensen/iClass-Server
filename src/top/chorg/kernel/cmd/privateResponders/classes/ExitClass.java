@@ -1,0 +1,70 @@
+package top.chorg.kernel.cmd.privateResponders.classes;
+
+import top.chorg.kernel.cmd.CmdResponder;
+import top.chorg.kernel.database.UserQueryState;
+import top.chorg.kernel.database.UserUpdateState;
+import top.chorg.kernel.server.base.api.Message;
+import top.chorg.kernel.server.base.api.auth.ClassInfo;
+import top.chorg.system.Global;
+import top.chorg.system.Sys;
+
+import java.util.Objects;
+
+public class ExitClass extends CmdResponder {
+    public ExitClass(String... args) {
+        super(args);
+    }
+
+    @Override
+    public int response() throws IndexOutOfBoundsException {
+        int client = Objects.requireNonNull(nextArg(int.class));
+        int request;
+        try {
+            request = Objects.requireNonNull(nextArg(int.class));
+        } catch (NumberFormatException | NullPointerException e) {
+            Sys.devInfoF("Exit Class", "Client(%d) has sent invalid request.", client);
+            Global.cmdServer.sendMessage(client, new Message(
+                            "R-exitClass",
+                            "Parameter incomplete"
+                    )
+            );
+            return 2;
+        }
+        ClassInfo classObj = UserQueryState.getClassInfo(request);
+        if (classObj == null) {
+            Sys.devInfoF("Exit Class", "Client(%d) has sent invalid request.", client);
+            Global.cmdServer.sendMessage(client, new Message(
+                            "R-exitClass",
+                            "Class not exist"
+                    )
+            );
+            return 3;
+        }
+        int clientLevel = UserQueryState.getLevelInClass(client, request);
+        if (clientLevel < 0) {
+            Sys.devInfoF("Exit Class", "Client(%d) is not authorized to do this.", client);
+            Global.cmdServer.sendMessage(client, new Message(
+                            "R-exitClass",
+                            "You are already in class."
+                    )
+            );
+            return 5;
+        }
+        if (UserUpdateState.exitClass(client, request)) {
+            Global.cmdServer.sendMessage(client, new Message(
+                            "R-exitClass",
+                            "OK"
+                    )
+            );
+            return 0;
+        } else {
+            Sys.devInfoF("Exit Class", "Operation changed nothing.", client);
+            Global.cmdServer.sendMessage(client, new Message(
+                            "R-exitClass",
+                            "Unknown (Nothing changed)"
+                    )
+            );
+            return 6;
+        }
+    }
+}

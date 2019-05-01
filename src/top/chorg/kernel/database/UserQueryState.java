@@ -1,5 +1,6 @@
 package top.chorg.kernel.database;
 
+import top.chorg.kernel.server.base.api.auth.ClassInfo;
 import top.chorg.kernel.server.base.api.auth.User;
 import top.chorg.support.Date;
 import top.chorg.support.DateTime;
@@ -16,7 +17,7 @@ public class UserQueryState {
     public static User getUser(int id) {
         try {
             PreparedStatement state = Global.database.prepareStatement(
-                    "SELECT id, username, email, phone, birthday, sex, " +
+                    "SELECT id, username, email, phone, birthday, sex, avatar, " +
                             "realName, nickName, grade, regTime, userGroup FROM users WHERE id=?"
             );
             state.setInt(1, id);
@@ -46,7 +47,7 @@ public class UserQueryState {
     public static User validateUserNormal(String name, String password) {
         try {
             PreparedStatement state = Global.database.prepareStatement(
-                    "SELECT id, username, email, phone, birthday, sex, " +
+                    "SELECT id, username, email, phone, birthday, sex, avatar, " +
                             "realName, nickname, grade, regTime, userGroup FROM users WHERE username=? AND password=?"
             );
             state.setString(1, name);
@@ -62,7 +63,7 @@ public class UserQueryState {
     public static User validateUserToken(String name, String token) {
         try {
             PreparedStatement state = Global.database.prepareStatement(
-                    "SELECT id, username, email, phone, birthday, sex, " +
+                    "SELECT id, username, email, phone, birthday, sex, avatar, " +
                             "realName, nickname, grade, regTime, userGroup FROM users WHERE username=? AND loginToken=?"
             );
             state.setString(1, name);
@@ -175,6 +176,7 @@ public class UserQueryState {
                 getClasses(userId),
                 res.getInt("sex"),
                 res.getInt("grade"),
+                res.getInt("avatar"),
                 res.getString("username"),
                 res.getString("realName"),
                 res.getString("nickName"),
@@ -184,6 +186,91 @@ public class UserQueryState {
                 new DateTime(res.getString("regTime")),
                 res.getString("userGroup").charAt(0)
         );
+    }
+
+    public static String[] getUserNameSet(int[] request) {
+        ArrayList<String> arr = new ArrayList<>();
+        try {
+            PreparedStatement state = Global.database.prepareStatement(
+                    "SELECT username FROM users WHERE id=?"
+            );
+            for (int i : request) {
+                state.setInt(1, i);
+                var temp = state.executeQuery();
+                if (temp.next()) arr.add(temp.getString("username"));
+                else arr.add(null);
+            }
+            String[] result = new String[arr.size()];
+            arr.toArray(result);
+            return result;
+        } catch (SQLException e) {
+            Sys.err("DB", "Error while fetching username.");
+            return null;
+        }
+    }
+
+    public static String[] getRealNameSet(int[] request) {
+        ArrayList<String> arr = new ArrayList<>();
+        try {
+            PreparedStatement state = Global.database.prepareStatement(
+                    "SELECT realName FROM users WHERE id=?"
+            );
+            for (int i : request) {
+                state.setInt(1, i);
+                var temp = state.executeQuery();
+                if (temp.next()) arr.add(temp.getString("realName"));
+                else arr.add(null);
+            }
+            String[] result = new String[arr.size()];
+            arr.toArray(result);
+            return result;
+        } catch (SQLException e) {
+            Sys.err("DB", "Error while fetching realName.");
+            return null;
+        }
+    }
+
+    public static String[] getNickNameSet(int[] request) {
+        ArrayList<String> arr = new ArrayList<>();
+        try {
+            PreparedStatement state = Global.database.prepareStatement(
+                    "SELECT nickName FROM users WHERE id=?"
+            );
+            for (int i : request) {
+                state.setInt(1, i);
+                var temp = state.executeQuery();
+                if (temp.next()) arr.add(temp.getString("nickName"));
+                else arr.add(null);
+            }
+            String[] result = new String[arr.size()];
+            arr.toArray(result);
+            return result;
+        } catch (SQLException e) {
+            Sys.err("DB", "Error while fetching nickName.");
+            return null;
+        }
+    }
+
+    public static ClassInfo getClassInfo(int classId) {
+        try {
+            PreparedStatement state = Global.database.prepareStatement(
+                    "SELECT * FROM classes WHERE id=?"
+            );
+            state.setInt(1, classId);
+            var res = state.executeQuery();
+            if (!res.next()) return null;
+            return new ClassInfo(
+                    res.getInt("id"),
+                    res.getInt("avatar"),
+                    res.getString("name"),
+                    res.getString("introduction"),
+                    new DateTime(res.getString("date")),
+                    getClassmates(classId)
+            );
+        } catch (SQLException e) {
+            Sys.err("DB", "Error while fetching class info.");
+            return null;
+        }
     }
 
 }
