@@ -45,7 +45,7 @@ public class JoinClass extends CmdResponder {
             Sys.devInfoF("Join Class", "Client(%d) is not authorized to do this.", client);
             Global.cmdServer.sendMessage(client, new Message(
                             "R-joinClass",
-                            "You are already in class."
+                            "You are already in class"
                     )
             );
             return 5;

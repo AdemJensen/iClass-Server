@@ -22,7 +22,7 @@ public class AddTemplate extends CmdResponder {
         if (request == null) {
             Sys.devInfoF("Add Template", "Client(%d) has sent invalid request.", client);
             Global.cmdServer.sendMessage(client, new Message(
-                            "R-addAnnounceTemplate",
+                            "R-addTemplate",
                             "Parameter incomplete"
                     )
             );
@@ -31,14 +31,14 @@ public class AddTemplate extends CmdResponder {
         if (!TemplateUpdateState.addTemplate(request, client)) {
             Sys.devInfoF("Add Template", "Operation changed nothing.", client);
             Global.cmdServer.sendMessage(client, new Message(
-                            "R-addAnnounceTemplate",
+                            "R-addTemplate",
                             "Unknown (Nothing changed)"
                     )
             );
             return 6;
         }
         Global.cmdServer.sendMessage(client, new Message(
-                        "R-addAnnounceTemplate",
+                        "R-addTemplate",
                         "OK"
                 )
         );

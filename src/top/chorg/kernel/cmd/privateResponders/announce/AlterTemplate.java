@@ -34,7 +34,7 @@ public class AlterTemplate extends CmdResponder {
         if (template == null) {
             Sys.devInfoF("Alter Template", "Client(%d) has sent invalid request.", client);
             Global.cmdServer.sendMessage(client, new Message(
-                            "R-alterAnnounceTemplate",
+                            "R-alterTemplate",
                             "Template not exist"
                     )
             );
@@ -43,14 +43,14 @@ public class AlterTemplate extends CmdResponder {
         if (!TemplateUpdateState.alterTemplate(request)) {
             Sys.devInfoF("Alter Template", "Operation changed nothing.", client);
             Global.cmdServer.sendMessage(client, new Message(
-                            "R-alterAnnounceTemplate",
+                            "R-alterTemplate",
                             "Unknown (Nothing changed)"
                     )
             );
             return 6;
         }
         Global.cmdServer.sendMessage(client, new Message(
-                        "R-alterAnnounceTemplate",
+                        "R-alterTemplate",
                         "OK"
                 )
         );

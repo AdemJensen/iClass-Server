@@ -5,6 +5,7 @@ import top.chorg.support.DateTime;
 import top.chorg.system.Global;
 import top.chorg.system.Sys;
 
+import java.math.BigInteger;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ public class FileQueryState {
     public static FileInfo getFileInfo(int id) {
         try {
             PreparedStatement state = Global.database.prepareStatement(
-                    "SELECT name, uploader, date, classId, level FROM files WHERE id=? AND isUploaded=1"
+                    "SELECT * FROM files WHERE id=? AND isUploaded=1 ORDER BY date DESC "
             );
             state.setInt(1, id);
             var res = state.executeQuery();
@@ -24,7 +25,8 @@ public class FileQueryState {
                     res.getInt("uploader"),
                     new DateTime(res.getString("date")),
                     res.getInt("classId"),
-                    res.getInt("level")
+                    res.getInt("level"),
+                    res.getBigDecimal("size")
             );
         }  catch (SQLException e) {
             Sys.err("DB", "Error while fetching chat by id.");
@@ -37,7 +39,8 @@ public class FileQueryState {
         if (userLevel < 0) return null;
         try {
             PreparedStatement state = Global.database.prepareStatement(
-                    "SELECT * FROM files WHERE classId=? AND (level<? OR level=?) AND isUploaded=1"
+                    "SELECT * FROM files WHERE classId=? AND (level<? OR level=?) AND isUploaded=1 " +
+                            "ORDER BY date DESC "
             );
             state.setInt(1, classId);
             state.setInt(2, userLevel);
@@ -52,7 +55,7 @@ public class FileQueryState {
     public static FileInfo[] getSelfList(int userId) {
         try {
             PreparedStatement state = Global.database.prepareStatement(
-                    "SELECT * FROM files WHERE uploader=? AND isUploaded=1"
+                    "SELECT * FROM files WHERE uploader=? AND isUploaded=1 ORDER BY date DESC "
             );
             state.setInt(1, userId);
             return extractFileList(state);
@@ -72,7 +75,8 @@ public class FileQueryState {
                     res.getInt("uploader"),
                     new DateTime(res.getString("date")),
                     res.getInt("classId"),
-                    res.getInt("level")
+                    res.getInt("level"),
+                    res.getBigDecimal("size")
             ));
         }
         FileInfo[] result = new FileInfo[list.size()];

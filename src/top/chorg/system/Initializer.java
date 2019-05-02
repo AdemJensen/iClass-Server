@@ -158,6 +158,7 @@ public class Initializer {
 
         Global.cmdManPrivate.register("joinClass", top.chorg.kernel.cmd.privateResponders.classes.JoinClass.class);
         Global.cmdManPrivate.register("exitClass", top.chorg.kernel.cmd.privateResponders.classes.ExitClass.class);
+        Global.cmdManPrivate.register("kickMember", top.chorg.kernel.cmd.privateResponders.classes.Kick.class);
         Global.cmdManPrivate.register("fetchClassInfo",
                 top.chorg.kernel.cmd.privateResponders.classes.FetchClassInfo.class);
         Global.cmdManPrivate.register("fetchOnline",
@@ -168,7 +169,7 @@ public class Initializer {
                 top.chorg.kernel.cmd.privateResponders.announce.FetchList.class
         );
         Global.cmdManPrivate.register(
-                "fetchAnnounceTemplate",
+                "fetchTemplateList",
                 top.chorg.kernel.cmd.privateResponders.announce.FetchTemplate.class
         );
         Global.cmdManPrivate.register(
@@ -176,7 +177,7 @@ public class Initializer {
                 top.chorg.kernel.cmd.privateResponders.announce.Add.class
         );
         Global.cmdManPrivate.register(
-                "addAnnounceTemplate",
+                "addTemplate",
                 top.chorg.kernel.cmd.privateResponders.announce.AddTemplate.class
         );
         Global.cmdManPrivate.register(
@@ -184,7 +185,7 @@ public class Initializer {
                 top.chorg.kernel.cmd.privateResponders.announce.Alter.class
         );
         Global.cmdManPrivate.register(
-                "alterAnnounceTemplate",
+                "alterTemplate",
                 top.chorg.kernel.cmd.privateResponders.announce.AlterTemplate.class
         );
         Global.cmdManPrivate.register(
@@ -192,7 +193,7 @@ public class Initializer {
                 top.chorg.kernel.cmd.privateResponders.announce.Del.class
         );
         Global.cmdManPrivate.register(
-                "delAnnounceTemplate",
+                "delTemplate",
                 top.chorg.kernel.cmd.privateResponders.announce.DelTemplate.class
         );
 

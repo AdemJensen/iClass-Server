@@ -18,7 +18,7 @@ public class AnnounceQueryState {
             if (level == -2) throw new SQLException();
             if (level == -1) return null;
             PreparedStatement state = Global.database.prepareStatement(
-                    "SELECT * FROM announcements WHERE classId=? AND (level < ? OR level = ?)"
+                    "SELECT * FROM announcements WHERE classId=? AND (level < ? OR level = ?) ORDER BY date DESC"
             );
             state.setInt(1, classId);
             state.setInt(2, level);
@@ -71,7 +71,7 @@ public class AnnounceQueryState {
     public static FetchListResult[] fetchPublishedList(int publisher) {
         try {
             PreparedStatement state = Global.database.prepareStatement(
-                    "SELECT * FROM announcements WHERE publisher=?"
+                    "SELECT * FROM announcements WHERE publisher=? ORDER BY date DESC"
             );
             state.setInt(1, publisher);
             return assignData(state);

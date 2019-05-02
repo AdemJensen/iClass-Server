@@ -8,6 +8,7 @@ import top.chorg.system.Global;
 import top.chorg.system.Sys;
 
 import java.io.*;
+import java.math.BigInteger;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -66,7 +67,8 @@ public class FileServer extends Thread {
         private void upload(PrintWriter pw, BufferedReader br) throws Exception {
             String name = br.readLine();
             int id = Integer.parseInt(br.readLine());
-            var fo = new FileOutputStream(String.format("fileLib" + File.separator + "%d.file", id));
+            String fileStoragePath = String.format("fileLib" + File.separator + "%d.file", id);
+            var fo = new FileOutputStream(fileStoragePath);
             pw.println("READY");
             pw.flush();
             var bytes = new byte[1024];
@@ -75,7 +77,9 @@ public class FileServer extends Thread {
             }
             fo.close();
             socket.close();
-            FileUpdateState.completeUpload(name, id);
+            ;
+            FileUpdateState.completeUpload(name, id,
+                    new BigInteger(String.valueOf(new File(fileStoragePath).length())));
             Sys.infoF("File server", "File %d.file has been saved.", id);
         }
 

@@ -4,6 +4,8 @@ import top.chorg.kernel.server.base.api.file.UploadRequest;
 import top.chorg.system.Global;
 import top.chorg.system.Sys;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -32,13 +34,14 @@ public class FileUpdateState {
         }
     }
 
-    public static boolean completeUpload(String name, int id) {
+    public static boolean completeUpload(String name, int id, BigInteger size) {
         try {
             PreparedStatement state = Global.database.prepareStatement(
-                    "UPDATE files SET isUploaded=1, name=? WHERE id=?"
+                    "UPDATE files SET isUploaded=1, name=?, size=? WHERE id=?"
             );
             state.setString(1, name);
-            state.setInt(2, id);
+            state.setBigDecimal(2, new BigDecimal(size));
+            state.setInt(3, id);
             return state.executeUpdate() != 0;
         }  catch (SQLException e) {
             Sys.errF("DB", "Error while completing upload (%s).", e.getMessage());

@@ -39,7 +39,7 @@ public class Download extends CmdResponder {
             Sys.devInfoF("Download File", "Client(%d) has sent invalid request.", client);
             Global.cmdServer.sendMessage(client, new Message(
                             "R-downloadFile",
-                            "File not exist."
+                            "File not exist"
                     )
             );
             return 2;

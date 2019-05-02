@@ -13,7 +13,7 @@ public class TemplateQueryState {
     public static FetchTemplateResult[] fetchTemplate(int userId) {
         try {
             PreparedStatement state = Global.database.prepareStatement(
-                    "SELECT * FROM templates WHERE owner=?"
+                    "SELECT * FROM templates WHERE owner=? "
             );
             state.setInt(1, userId);
             var res = state.executeQuery();

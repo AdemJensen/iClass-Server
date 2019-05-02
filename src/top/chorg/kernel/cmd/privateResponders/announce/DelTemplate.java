@@ -24,7 +24,7 @@ public class DelTemplate extends CmdResponder {
             if (!template) {
                 Sys.devInfoF("Del Template", "Client(%d) has sent invalid request.", client);
                 Global.cmdServer.sendMessage(client, new Message(
-                                "R-delAnnounceTemplate",
+                                "R-delTemplate",
                                 "Template not exist or permission denied"
                         )
                 );
@@ -33,21 +33,21 @@ public class DelTemplate extends CmdResponder {
             if (!TemplateUpdateState.deleteTemplate(request)) {
                 Sys.devInfoF("Del Template", "Operation changed nothing.", client);
                 Global.cmdServer.sendMessage(client, new Message(
-                                "R-delAnnounceTemplate",
+                                "R-delTemplate",
                                 "Unknown (Nothing changed)"
                         )
                 );
                 return 6;
             }
             Global.cmdServer.sendMessage(client, new Message(
-                            "R-delAnnounceTemplate",
+                            "R-delTemplate",
                             "OK"
                     )
             );
         } catch (NullPointerException e) {
             Sys.devInfoF("Del Template", "Client(%d) has sent invalid request.", client);
             Global.cmdServer.sendMessage(client, new Message(
-                            "R-delAnnounceTemplate",
+                            "R-delTemplate",
                             "Parameter incomplete"
                     )
             );

@@ -18,7 +18,7 @@ public class FetchTemplate extends CmdResponder {
     public int response() throws IndexOutOfBoundsException {
         int client = Objects.requireNonNull(nextArg(int.class));
         if (!Global.cmdServer.sendMessage(client, new Message(
-                "R-fetchAnnounceTemplate",
+                "R-fetchTemplateList",
                 Global.gson.toJson(TemplateQueryState.fetchTemplate(
                         client
                 ))

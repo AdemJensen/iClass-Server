@@ -17,14 +17,14 @@ public class VoteQueryState {
     public static FetchListResult[] fetchList(int userId) {
         try {
             PreparedStatement state = Global.database.prepareStatement(
-                    "SELECT voteId, isVoted FROM vote_relations WHERE userId=?"
+                    "SELECT voteId, isVoted FROM vote_relations WHERE userId=? "
             );
             state.setInt(1, userId);
             ArrayList<FetchListResult> result = new ArrayList<>();
             var resObj = state.executeQuery();
             PreparedStatement subState = Global.database.prepareStatement(
                     "SELECT id, title, date, validity, method, classId, level, status, publisher " +
-                            "FROM votes WHERE id=?"
+                            "FROM votes WHERE id=? ORDER BY date DESC "
             );
             while (resObj.next()) {
                 subState.setInt(1, resObj.getInt("voteId"));
@@ -83,7 +83,7 @@ public class VoteQueryState {
         try {
             PreparedStatement state = Global.database.prepareStatement(
                     "SELECT id, title, date, validity, method, classId, level, status, publisher " +
-                            "FROM votes WHERE publisher=?"
+                            "FROM votes WHERE publisher=? ORDER BY date DESC "
             );
             state.setInt(1, publisher);
             var resObj = state.executeQuery();
@@ -127,7 +127,7 @@ public class VoteQueryState {
     public static int getSelectionNum(int voteId) {
         try {
             PreparedStatement state = Global.database.prepareStatement(
-                    "SELECT selections FROM votes WHERE id=?"
+                    "SELECT selections FROM votes WHERE id=? ORDER BY date DESC "
             );
             state.setInt(1, voteId);
             var res = state.executeQuery();

@@ -45,7 +45,7 @@ public class ExitClass extends CmdResponder {
             Sys.devInfoF("Exit Class", "Client(%d) is not authorized to do this.", client);
             Global.cmdServer.sendMessage(client, new Message(
                             "R-exitClass",
-                            "You are already in class."
+                            "You are not in class"
                     )
             );
             return 5;
