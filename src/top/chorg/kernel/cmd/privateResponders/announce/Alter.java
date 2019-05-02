@@ -75,6 +75,17 @@ public class Alter extends CmdResponder {
                         "OK"
                 )
         );
+        for (Integer user : Global.cmdServer.getOnlineUsers()) {
+            if (UserQueryState.getLevelInClass(user, request.classId) >= request.level) {
+                Sys.devInfoF("Add Announce", "Sent QTE message to %d.", client);
+                Global.cmdServer.sendMessage(client, new Message(
+                                "onNewAnnounce",
+                                Global.gson.toJson(AnnounceQueryState.fetchListById(request.id))
+                        )
+                );
+                return 5;
+            }
+        }
         return 0;
     }
 }

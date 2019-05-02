@@ -32,6 +32,12 @@ public class ServerBase extends Thread {
         return records.get(to).sender.send(message.encode());
     }
 
+    public synchronized Integer[] getOnlineUsers() {
+        Integer[] arr = new Integer[records.keySet().size()];
+        records.keySet().toArray(arr);
+        return arr;
+    }
+
     public synchronized void bringOffline(int id) {
         bringOffline(id, false);
     }

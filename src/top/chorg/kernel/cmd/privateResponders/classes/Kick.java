@@ -74,6 +74,12 @@ public class Kick extends CmdResponder {
                             "OK"
                     )
             );
+            if (Global.cmdServer.isOnline(request[1])) {
+                Global.cmdServer.sendMessage(request[1], new Message(
+                        "onKicked",
+                        String.valueOf(request[0])
+                ));
+            }
             return 0;
         } else {
             Sys.devInfoF("Kick member", "Operation changed nothing.", client);

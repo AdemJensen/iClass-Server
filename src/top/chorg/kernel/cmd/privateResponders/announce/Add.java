@@ -1,6 +1,7 @@
 package top.chorg.kernel.cmd.privateResponders.announce;
 
 import top.chorg.kernel.cmd.CmdResponder;
+import top.chorg.kernel.database.AnnounceQueryState;
 import top.chorg.kernel.database.AnnounceUpdateState;
 import top.chorg.kernel.database.UserQueryState;
 import top.chorg.kernel.server.base.api.Message;
@@ -39,7 +40,8 @@ public class Add extends CmdResponder {
             );
             return 5;
         }
-        if (!AnnounceUpdateState.addAnnounce(request, client)) {
+        int updateRes = AnnounceUpdateState.addAnnounce(request, client);
+        if (updateRes < 0) {
             Sys.devInfoF("Add Announce", "Operation changed nothing.", client);
             Global.cmdServer.sendMessage(client, new Message(
                             "R-addAnnounce",
@@ -53,6 +55,17 @@ public class Add extends CmdResponder {
                         "OK"
                 )
         );
+        for (Integer user : Global.cmdServer.getOnlineUsers()) {
+            if (UserQueryState.getLevelInClass(user, request.classId) >= request.level) {
+                Sys.devInfoF("Add Announce", "Sent QTE message to %d.", client);
+                Global.cmdServer.sendMessage(client, new Message(
+                                "onNewAnnounce",
+                                Global.gson.toJson(AnnounceQueryState.fetchListById(updateRes))
+                        )
+                );
+                return 5;
+            }
+        }
         return 0;
     }
 }

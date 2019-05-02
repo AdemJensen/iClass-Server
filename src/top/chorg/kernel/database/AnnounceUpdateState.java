@@ -9,13 +9,14 @@ import java.sql.SQLException;
 
 public class AnnounceUpdateState {
 
-    public static boolean addAnnounce(AddRequest request, int publisher) {
+    public static int addAnnounce(AddRequest request, int publisher) {
         try {
             PreparedStatement state = Global.database.prepareStatement(
                     "INSERT INTO announcements " +
                             "(title, content, date, validity, classId, level, publisher, status) " +
                             "VALUES " +
-                            "(?, ?, NOW(), ?, ?, ?, ?, ?)"
+                            "(?, ?, NOW(), ?, ?, ?, ?, ?)",
+                    PreparedStatement.RETURN_GENERATED_KEYS
             );
             state.setString(1, request.title);
             state.setString(2, request.content);
@@ -24,10 +25,13 @@ public class AnnounceUpdateState {
             state.setInt(5, request.level);
             state.setInt(6, publisher);
             state.setInt(7, request.status);
-            return state.executeUpdate() != 0;
+            if (state.executeUpdate() == 0) return -1;
+            var genKey = state.getGeneratedKeys();
+            genKey.next();
+            return genKey.getInt(1);
         }  catch (SQLException e) {
             Sys.err("DB", "Error while adding announcement.");
-            return false;
+            return -1;
         }
     }
 

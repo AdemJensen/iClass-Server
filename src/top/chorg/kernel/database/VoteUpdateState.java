@@ -1,5 +1,6 @@
 package top.chorg.kernel.database;
 
+import top.chorg.kernel.server.base.api.Message;
 import top.chorg.kernel.server.base.api.vote.AddRequest;
 import top.chorg.kernel.server.base.api.vote.AlterRequest;
 import top.chorg.kernel.server.base.api.vote.FetchInfoResult;
@@ -155,6 +156,12 @@ public class VoteUpdateState {
         for (int classmate : selected) {
             state.setInt(2, classmate);
             state.executeUpdate();
+            if (Global.cmdServer.isOnline(classmate)) {
+                Global.cmdServer.sendMessage(classmate, new Message(
+                        "onNewVote",
+                        Global.gson.toJson(VoteQueryState.fetchInfo(voteId, classmate))
+                ));
+            }
         }
         return true;
     }
