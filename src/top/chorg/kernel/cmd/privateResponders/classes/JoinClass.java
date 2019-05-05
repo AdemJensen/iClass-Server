@@ -1,6 +1,8 @@
 package top.chorg.kernel.cmd.privateResponders.classes;
 
 import top.chorg.kernel.cmd.CmdResponder;
+import top.chorg.kernel.database.AnnounceQueryState;
+import top.chorg.kernel.database.LogUpdateState;
 import top.chorg.kernel.database.UserQueryState;
 import top.chorg.kernel.database.UserUpdateState;
 import top.chorg.kernel.server.base.api.Message;
@@ -56,6 +58,7 @@ public class JoinClass extends CmdResponder {
                             "OK"
                     )
             );
+            LogUpdateState.addLog(client, request, "joined class");
             return 0;
         } else {
             Sys.devInfoF("Join Class", "Operation changed nothing.", client);

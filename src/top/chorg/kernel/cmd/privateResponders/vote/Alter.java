@@ -1,6 +1,7 @@
 package top.chorg.kernel.cmd.privateResponders.vote;
 
 import top.chorg.kernel.cmd.CmdResponder;
+import top.chorg.kernel.database.LogUpdateState;
 import top.chorg.kernel.database.UserQueryState;
 import top.chorg.kernel.database.VoteQueryState;
 import top.chorg.kernel.database.VoteUpdateState;
@@ -75,6 +76,8 @@ public class Alter extends CmdResponder {
                         "OK"
                 )
         );
+        LogUpdateState.addLog(client, request.classId,
+                "altered vote <<" + request.title + "(" + request.id + ")>>");
         return 0;
     }
 }

@@ -1,7 +1,9 @@
 package top.chorg.kernel.cmd.privateResponders.vote;
 
 import top.chorg.kernel.cmd.CmdResponder;
+import top.chorg.kernel.database.LogUpdateState;
 import top.chorg.kernel.database.UserQueryState;
+import top.chorg.kernel.database.VoteQueryState;
 import top.chorg.kernel.database.VoteUpdateState;
 import top.chorg.kernel.server.base.api.Message;
 import top.chorg.kernel.server.base.api.vote.AddRequest;
@@ -53,6 +55,7 @@ public class Add extends CmdResponder {
                         "OK"
                 )
         );
+        LogUpdateState.addLog(client, request.classId, "added vote <<" + request.title + ">>");
         return 0;
     }
 }

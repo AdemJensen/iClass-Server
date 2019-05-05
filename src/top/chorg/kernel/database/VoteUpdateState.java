@@ -41,6 +41,7 @@ public class VoteUpdateState {
             } else {
                 return false;
             }
+            addRelation(voteId, publisher);
             return addRelations(voteId, request.classId, request.level);
             // TODO: Vote should be added to new users.
         }  catch (SQLException e) {
@@ -78,15 +79,7 @@ public class VoteUpdateState {
                 );  // Clear all the vote info to match.
                 state.setInt(1, request.id);
                 state.executeUpdate();
-                state = Global.database.prepareStatement(
-                        "INSERT INTO vote_relations " +
-                                "(voteId, userId, isVoted, ops) " +
-                                "VALUES " +
-                                "(?, ?, 0, '[]')"
-                );
-                state.setInt(1, request.id);
-                state.setInt(2, client);
-                state.executeUpdate();
+                addRelation(request.id, client);
                 return addRelations(request.id, request.classId, request.level);
             } else if (needsRefresh) {
                 state = Global.database.prepareStatement(
@@ -144,24 +137,29 @@ public class VoteUpdateState {
                 isUsed[got] = true;
             }
         }
-        state = Global.database.prepareStatement(
+        Integer[] selected = new Integer[arr.size()];
+        arr.toArray(selected);
+        for (int classmate : selected) {
+            addRelation(voteId, classmate);
+        }
+        return true;
+    }
+
+    private static boolean addRelation(int voteId, int userId) throws SQLException {
+        PreparedStatement state = Global.database.prepareStatement(
                 "INSERT INTO vote_relations " +
                         "(voteId, userId, isVoted, ops) " +
                         "VALUES " +
                         "(?, ?, 0, '[]')"
         );
         state.setInt(1, voteId);
-        Integer[] selected = new Integer[arr.size()];
-        arr.toArray(selected);
-        for (int classmate : selected) {
-            state.setInt(2, classmate);
-            state.executeUpdate();
-            if (Global.cmdServer.isOnline(classmate)) {
-                Global.cmdServer.sendMessage(classmate, new Message(
-                        "onNewVote",
-                        Global.gson.toJson(VoteQueryState.fetchInfo(voteId, classmate))
-                ));
-            }
+        state.setInt(2, userId);
+        if (state.executeUpdate() == 0) return false;
+        if (Global.cmdServer.isOnline(userId)) {
+            Global.cmdServer.sendMessage(userId, new Message(
+                    "onNewVote",
+                    Global.gson.toJson(VoteQueryState.fetchInfo(voteId, userId))
+            ));
         }
         return true;
     }

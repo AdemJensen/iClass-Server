@@ -54,7 +54,7 @@ public class UserQueryState {
             state.setString(2, password);
             return assignUserInfo(state);
         } catch (SQLException e) {
-            Sys.err("DB", "Error while validating user (Normal).");
+            Sys.errF("DB", "Error while validating user (%s).", e.getMessage());
             return null;
         }
 

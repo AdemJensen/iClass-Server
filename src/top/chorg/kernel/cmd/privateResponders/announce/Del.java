@@ -3,6 +3,7 @@ package top.chorg.kernel.cmd.privateResponders.announce;
 import top.chorg.kernel.cmd.CmdResponder;
 import top.chorg.kernel.database.AnnounceQueryState;
 import top.chorg.kernel.database.AnnounceUpdateState;
+import top.chorg.kernel.database.LogUpdateState;
 import top.chorg.kernel.database.UserQueryState;
 import top.chorg.kernel.server.base.api.Message;
 import top.chorg.kernel.server.base.api.announcements.FetchListResult;
@@ -56,6 +57,8 @@ public class Del extends CmdResponder {
                             "OK"
                     )
             );
+            LogUpdateState.addLog(client, AnnounceQueryState.fetchListById(request).classId,
+                    "deleted announcement <<" + AnnounceQueryState.fetchListById(request).title + "(" + request + ")>>");
         } catch (NullPointerException e) {
             Sys.devInfoF("Del Announce", "Client(%d) has sent invalid request.", client);
             Global.cmdServer.sendMessage(client, new Message(

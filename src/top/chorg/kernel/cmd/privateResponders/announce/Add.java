@@ -3,6 +3,7 @@ package top.chorg.kernel.cmd.privateResponders.announce;
 import top.chorg.kernel.cmd.CmdResponder;
 import top.chorg.kernel.database.AnnounceQueryState;
 import top.chorg.kernel.database.AnnounceUpdateState;
+import top.chorg.kernel.database.LogUpdateState;
 import top.chorg.kernel.database.UserQueryState;
 import top.chorg.kernel.server.base.api.Message;
 import top.chorg.kernel.server.base.api.announcements.AddRequest;
@@ -63,9 +64,10 @@ public class Add extends CmdResponder {
                                 Global.gson.toJson(AnnounceQueryState.fetchListById(updateRes))
                         )
                 );
-                return 5;
             }
         }
+        LogUpdateState.addLog(client, request.classId,
+                "added announcement <<" + AnnounceQueryState.fetchListById(updateRes).title + "(" + updateRes + ")>>");
         return 0;
     }
 }

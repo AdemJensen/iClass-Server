@@ -18,7 +18,7 @@ public class ChatQueryState {
             if (request.type == 1) {
                 state = Global.database.prepareStatement(
                         "SELECT * FROM chats WHERE type=1 AND (toId=? OR (fromId=? AND toId=?)) " +
-                                "ORDER BY time DESC"
+                                "ORDER BY time ASC "
                 );
                 state.setInt(1, request.toId);
                 state.setInt(2, request.toId);
@@ -26,7 +26,7 @@ public class ChatQueryState {
             } else {
                 state = Global.database.prepareStatement(
                         "SELECT * FROM chats WHERE type=2 AND ((fromId=? AND toId=?) OR (fromId=? AND toId=?)) " +
-                                "ORDER BY time DESC"
+                                "ORDER BY time ASC"
                 );
                 state.setInt(1, request.toId);
                 state.setInt(2, userId);

@@ -3,6 +3,7 @@ package top.chorg.kernel.cmd.privateResponders.announce;
 import top.chorg.kernel.cmd.CmdResponder;
 import top.chorg.kernel.database.AnnounceQueryState;
 import top.chorg.kernel.database.AnnounceUpdateState;
+import top.chorg.kernel.database.LogUpdateState;
 import top.chorg.kernel.database.UserQueryState;
 import top.chorg.kernel.server.base.api.Message;
 import top.chorg.kernel.server.base.api.announcements.AlterRequest;
@@ -83,9 +84,10 @@ public class Alter extends CmdResponder {
                                 Global.gson.toJson(AnnounceQueryState.fetchListById(request.id))
                         )
                 );
-                return 5;
             }
         }
+        LogUpdateState.addLog(client, request.classId, "altered announcement <<" +
+                AnnounceQueryState.fetchListById(request.id).title + "(" + request.id + ")>>");
         return 0;
     }
 }

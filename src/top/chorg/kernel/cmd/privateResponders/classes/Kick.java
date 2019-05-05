@@ -1,6 +1,7 @@
 package top.chorg.kernel.cmd.privateResponders.classes;
 
 import top.chorg.kernel.cmd.CmdResponder;
+import top.chorg.kernel.database.LogUpdateState;
 import top.chorg.kernel.database.UserQueryState;
 import top.chorg.kernel.database.UserUpdateState;
 import top.chorg.kernel.server.base.api.Message;
@@ -74,6 +75,8 @@ public class Kick extends CmdResponder {
                             "OK"
                     )
             );
+            LogUpdateState.addLog(client, request[0], "kicked " +
+                    UserQueryState.getUserNameSet(new int[]{ request[1] })[0] + " from class");
             if (Global.cmdServer.isOnline(request[1])) {
                 Global.cmdServer.sendMessage(request[1], new Message(
                         "onKicked",

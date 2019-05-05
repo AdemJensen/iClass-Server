@@ -1,6 +1,7 @@
 package top.chorg.kernel.cmd.privateResponders.vote;
 
 import top.chorg.kernel.cmd.CmdResponder;
+import top.chorg.kernel.database.LogUpdateState;
 import top.chorg.kernel.database.UserQueryState;
 import top.chorg.kernel.database.VoteQueryState;
 import top.chorg.kernel.database.VoteUpdateState;
@@ -56,6 +57,8 @@ public class Del extends CmdResponder {
                             "OK"
                     )
             );
+            LogUpdateState.addLog(client, VoteQueryState.fetchInfo(request, client).classId,
+                    "deleted vote <<" + VoteQueryState.fetchInfo(request, client).title + "(" + request + ")>>");
         } catch (NullPointerException e) {
             Sys.devInfoF("Del Vote", "Client(%d) has sent invalid request.", client);
             Global.cmdServer.sendMessage(client, new Message(

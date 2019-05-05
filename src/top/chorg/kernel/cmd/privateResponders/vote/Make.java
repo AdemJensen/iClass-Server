@@ -1,6 +1,7 @@
 package top.chorg.kernel.cmd.privateResponders.vote;
 
 import top.chorg.kernel.cmd.CmdResponder;
+import top.chorg.kernel.database.LogUpdateState;
 import top.chorg.kernel.database.UserQueryState;
 import top.chorg.kernel.database.VoteQueryState;
 import top.chorg.kernel.database.VoteUpdateState;
@@ -10,6 +11,7 @@ import top.chorg.kernel.server.base.api.vote.MakeRequest;
 import top.chorg.system.Global;
 import top.chorg.system.Sys;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 public class Make extends CmdResponder {
@@ -91,6 +93,9 @@ public class Make extends CmdResponder {
                         "OK"
                 )
         );
+        LogUpdateState.addLog(client, VoteQueryState.fetchInfo(request.voteId, client).classId,
+                "voted for <<" + VoteQueryState.fetchInfo(request.voteId, client).title + "(" + request.voteId + ")>> with options " +
+                        Arrays.toString(request.ops) + (request.addition.length() > 0 ? " with suggestions" : ""));
         return 0;
     }
 }
